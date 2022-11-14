@@ -15,11 +15,20 @@ public class Song {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "title", nullable = false)
     private String title;
+    @Column(name = "artist", nullable = false)
     private String artist;
+    @Column(name = "genre", nullable = false)
     private String genre;
+    @Column(name = "album", nullable = false)
     private String album;
+    @Column(name = "releaseYear", nullable = false)
     private String releaseYear;
+    @Column(name = "duration", nullable = false)
     private String duration;
+    @Column(name = "path")
     private String path;
+    @Column(name = "track_number", nullable = false)
+    private int track_number;
 }
