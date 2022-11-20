@@ -1,12 +1,12 @@
 package ru.rtu_mirea.musspringbackend.services;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.rtu_mirea.musspringbackend.entity.Album;
-import ru.rtu_mirea.musspringbackend.entity.Artist;
-import ru.rtu_mirea.musspringbackend.entity.Song;
+import ru.rtu_mirea.musspringbackend.entity.*;
 import ru.rtu_mirea.musspringbackend.repo.AlbumRepo;
 import ru.rtu_mirea.musspringbackend.repo.ArtistRepo;
 import ru.rtu_mirea.musspringbackend.repo.SongRepo;
+import ru.rtu_mirea.musspringbackend.repo.UserRepo;
 
 import java.util.List;
 import java.util.Set;
@@ -16,11 +16,13 @@ public class MainUserService {
     public final SongRepo songRepo;
     public final AlbumRepo albumRepo;
     public final ArtistRepo artistRepo;
+    public final UserRepo userRepo;
 
-    public MainUserService(SongRepo songRepo, AlbumRepo albumRepo, ArtistRepo artistRepo) {
+    public MainUserService(SongRepo songRepo, AlbumRepo albumRepo, ArtistRepo artistRepo, UserRepo userRepo) {
         this.songRepo = songRepo;
         this.albumRepo = albumRepo;
         this.artistRepo = artistRepo;
+        this.userRepo = userRepo;
     }
 
     // Get song by id
@@ -58,5 +60,17 @@ public class MainUserService {
         Set albums = artist.getAlbums();
         List list = List.copyOf(albums);
         return list;
+    }
+
+    public boolean addUser(User user) {
+        try {
+            user.setActive(true);
+            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+            user.setRoles(Set.of(Role.USER));
+            userRepo.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

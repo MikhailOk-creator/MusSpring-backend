@@ -25,7 +25,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/artist/**", "/album/**", "/song/**").permitAll()
+                .antMatchers("/artist/**", "/album/**", "/song/**", "/registration").permitAll()
                 .antMatchers("account/**").authenticated()
                 .antMatchers("/").hasAuthority(Role.SUPER_ADMIN.getAuthority())
                 .antMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.getAuthority(), Role.SUPER_ADMIN.getAuthority())

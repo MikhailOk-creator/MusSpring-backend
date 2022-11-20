@@ -2,8 +2,8 @@ package ru.rtu_mirea.musspringbackend.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
+import ru.rtu_mirea.musspringbackend.entity.User;
 import ru.rtu_mirea.musspringbackend.services.MainUserService;
 
 @Controller
@@ -42,5 +42,15 @@ public class MainUserController {
     @GetMapping("/song/name/{name}")
     public ResponseEntity<?> getSongByName(@PathVariable(name = "name") String name){
         return ResponseEntity.ok(service.getSongByName(name));
+    }
+
+    @PostMapping("/registration")
+    public ResponseEntity<?> registration(@RequestBody User user) {
+        try {
+            service.addUser(user);
+            return ResponseEntity.ok("User added");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error");
+        }
     }
 }
