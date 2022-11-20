@@ -29,18 +29,18 @@ public class MainUserController {
         return ResponseEntity.ok(service.getSongById(id));
     }
 
-    /*@GetMapping("/artist/{name}")
-    public String getArtistByName(@PathVariable(name = "name") String name){
-        return service.getArtistByName(name).toString();
+    @GetMapping("/artist/name/{name}")
+    public ResponseEntity<?> getArtistByName(@PathVariable(name = "name") String name){
+        return ResponseEntity.ok(service.getArtistByName(name));
     }
 
-    @GetMapping("/album/{name}")
-    public String getAlbumByName(@PathVariable(name = "name") String name){
-        return service.getAlbumByName(name).toString();
+    @GetMapping("/album/name/{name}")
+    public ResponseEntity<?> getAlbumByName(@PathVariable(name = "name") String name){
+        return ResponseEntity.ok(service.getAlbumByName(name));
     }
 
-    @GetMapping("/song/{name}")
-    public String getSongByName(@PathVariable(name = "name") String name){
-        return service.getSongByName(name).toString();
-    }*/
+    @GetMapping("/song/name/{name}")
+    public ResponseEntity<?> getSongByName(@PathVariable(name = "name") String name){
+        return ResponseEntity.ok(service.getSongByName(name));
+    }
 }

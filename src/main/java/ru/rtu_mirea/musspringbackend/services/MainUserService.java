@@ -23,21 +23,6 @@ public class MainUserService {
         this.artistRepo = artistRepo;
     }
 
-    // Get all songs
-    public List<Song> getAllSongs() {
-        return songRepo.findAll();
-    }
-
-    // Get all albums
-    public List<Album> getAllAlbums() {
-        return albumRepo.findAll();
-    }
-
-    // Get all artists
-    public List<Artist> getAllArtists() {
-        return artistRepo.findAll();
-    }
-
     // Get song by id
     public Song getSongById(Long id) {
         return songRepo.findById(id).orElse(null);
