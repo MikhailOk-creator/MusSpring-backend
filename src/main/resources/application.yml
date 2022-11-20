@@ -11,3 +11,6 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
     generate-ddl: true
+
+upload:
+  path: C:/Users/mikha/Documents/МИРЭА/Разработка серверных частей интернет ресурсов/Курсач/MusSpring-backend/src/main/resources/static/uploads

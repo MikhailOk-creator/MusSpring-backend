@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,7 +12,7 @@ import java.util.Set;
 @Table(name = "album_t")
 public class Album {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -30,7 +29,7 @@ public class Album {
     @Column(name = "path", nullable = false)
     private String path;
     @Column(name = "image", nullable = false)
-    private String image;
+    private String cover_filename;
     @Column(name = "label", nullable = false)
     private String label;
     @Column(name = "tracks", nullable = false)
