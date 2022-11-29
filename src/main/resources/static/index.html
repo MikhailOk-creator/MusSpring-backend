@@ -2,12 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin</title>
+    <title>MusSpring</title>
+    <!-- JS-script that outputs a list of names of performers presented in JSON format link:http://localhost:8080/artist/all -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function getFromJson() {
+            $.getJSON("http://localhost:8080/artist/all", function (data) {
+                var items = [];
+                $.each(data, function (key, val) {
+                    items.push("<li id='" + key + "'>" + val.name + "</li>");
+                });
+                $("<ul/>", {
+                    "class": "my-new-list",
+                    html: items.join("")
+                }).appendTo("body");
+            });
+        });
+    </script>
 </head>
 <body>
-
-Hey I am Admin!
-
-<a href="/logout">Logout</a>
+    Hello!
+<!-- The list of artists help with JS -->
+    <ul class="getFromJson"></ul>
 </body>
 </html>

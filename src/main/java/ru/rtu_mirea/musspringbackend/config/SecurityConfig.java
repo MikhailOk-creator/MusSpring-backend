@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/artist/**", "/album/**", "/song/**", "/registration").permitAll()
                 .antMatchers("account/**").authenticated()
-                .antMatchers("/").hasAuthority(Role.SUPER_ADMIN.getAuthority())
+                .antMatchers("/").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.getAuthority(), Role.SUPER_ADMIN.getAuthority())
                 .antMatchers("/user/**").hasAuthority(Role.USER.getAuthority())
                 .anyRequest().authenticated().and().httpBasic()

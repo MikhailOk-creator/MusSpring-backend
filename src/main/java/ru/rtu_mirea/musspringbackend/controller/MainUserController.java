@@ -4,14 +4,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.rtu_mirea.musspringbackend.entity.User;
+import ru.rtu_mirea.musspringbackend.services.AdminService;
 import ru.rtu_mirea.musspringbackend.services.MainUserService;
 
 @Controller
 public class MainUserController {
     private final MainUserService service;
+    private final AdminService adminService;
 
-    public MainUserController(MainUserService service) {
+    public MainUserController(MainUserService service, AdminService adminService) {
         this.service = service;
+        this.adminService = adminService;
     }
 
     @GetMapping("/artist/{id}")
@@ -52,5 +55,10 @@ public class MainUserController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error");
         }
+    }
+
+    @GetMapping("/artist/all")
+    public ResponseEntity<?> getAllArtists(){
+        return ResponseEntity.ok(adminService.getAllArtists());
     }
 }
