@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Arist</title>
+</head>
+<body>
+  <!-- Form for filling out a POST request and sending it in JSON -->
+    <form action="http://localhost:8080/admin/artist/add" method="post" enctype="multipart/form-data">
+        <label for="name">Name </label><input type="text" name="name" id="name">
+        <br>
+        <label for="country">Country </label><input type="text" name="country" id="country">
+        <br>
+        <input type="submit" value="Add">
+    </form>
+</body>
+</html>

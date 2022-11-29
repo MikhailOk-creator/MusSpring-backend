@@ -37,7 +37,7 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getAllSongs());
     }
 
-    @PostMapping("/artist/add")
+    @PostMapping("/artist/add/JSON")
     public ResponseEntity<?> addArtist(@RequestBody Artist artist){
         if (mainUserService.getArtistByName(artist.getName()) != null){
             return ResponseEntity.badRequest().body("Artist already exists");
@@ -49,6 +49,11 @@ public class AdminController {
                 return ResponseEntity.badRequest().body("Error");
             }
         }
+    }
+
+    @PostMapping("/artist/add")
+    public ResponseEntity<?> addArtistJSON(@ModelAttribute Artist artist){
+        return addArtist(artist);
     }
 
     @PostMapping("/album/add")
