@@ -11,6 +11,8 @@ import ru.rtu_mirea.musspringbackend.entity.Song;
 import ru.rtu_mirea.musspringbackend.services.AdminService;
 import ru.rtu_mirea.musspringbackend.services.MainUserService;
 
+import javax.sound.sampled.AudioFileFormat;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -57,7 +59,7 @@ public class AdminController {
     }
 
     @PostMapping("/album/add")
-    public ResponseEntity<?> addAlbum(@RequestBody Album album, @RequestParam("file") MultipartFile file){
+    public ResponseEntity<?> addAlbum(@ModelAttribute Album album, @RequestParam("image") MultipartFile file){
         if (mainUserService.getAlbumByName(album.getTitle()) != null){
             return ResponseEntity.badRequest().body("Album already exists");
         } else {
@@ -70,17 +72,27 @@ public class AdminController {
         }
     }
 
+    @PostMapping("/album/add/JSON")
+    public ResponseEntity<?> addAlbumJSON(@RequestBody Album album, @RequestParam("image") MultipartFile file){
+        return addAlbum(album, file);
+    }
+
     @PostMapping("/song/add")
-    public ResponseEntity<?> addSong(@RequestBody Song song, @RequestParam(name = "file") MultipartFile file){
+    public ResponseEntity<?> addSong(@ModelAttribute Song song, @RequestParam(name = "song") MultipartFile file){
         if (mainUserService.getSongByName(song.getTitle()) != null){
-            return ResponseEntity.badRequest().body("Album already exists");
+            return ResponseEntity.badRequest().body("Song already exists");
         } else {
             try {
                 adminService.addSong(song, file);
-                return ResponseEntity.ok("Album added");
+                return ResponseEntity.ok("Song added");
             } catch (Exception e){
                 return ResponseEntity.badRequest().body("Error");
             }
         }
+    }
+
+    @PostMapping("/song/add/JSON")
+    public ResponseEntity<?> addSongJSON(@RequestBody Song song, @RequestParam(name = "song") MultipartFile file){
+        return addSong(song, file);
     }
 }

@@ -54,9 +54,9 @@ public class AdminService {
         return true;
     }
 
-    public boolean addAlbum(Album album, MultipartFile file) {
+    public void addAlbum(Album album, MultipartFile file) {
         if (albumRepo.findByTitle(album.getTitle()) != null) {
-            return false;
+            return;
         }
         if (file != null && !file.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);
@@ -76,8 +76,7 @@ public class AdminService {
         Set<Album> albums = artist.getAlbums();
         albums.add(album);
         artist.setAlbums(albums);
-        albumRepo.save(album);
-        return true;
+        artistRepo.save(artist);
     }
 
     public boolean addSong(Song song, MultipartFile file) {

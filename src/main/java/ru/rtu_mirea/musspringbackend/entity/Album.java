@@ -26,9 +26,9 @@ public class Album {
     private String releaseYear;
     @Column(name = "duration", nullable = false)
     private String duration;
-    @Column(name = "path", nullable = false)
+    @Column(name = "path")
     private String path;
-    @Column(name = "image", nullable = false)
+    @Column(name = "image")
     private String cover_filename;
     @Column(name = "label", nullable = false)
     private String label;
