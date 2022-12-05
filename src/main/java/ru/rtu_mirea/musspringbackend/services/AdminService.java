@@ -1,14 +1,14 @@
 package ru.rtu_mirea.musspringbackend.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import ru.rtu_mirea.musspringbackend.entity.Album;
-import ru.rtu_mirea.musspringbackend.entity.Artist;
-import ru.rtu_mirea.musspringbackend.entity.Song;
+import ru.rtu_mirea.musspringbackend.entity.*;
 import ru.rtu_mirea.musspringbackend.repo.AlbumRepo;
 import ru.rtu_mirea.musspringbackend.repo.ArtistRepo;
 import ru.rtu_mirea.musspringbackend.repo.SongRepo;
+import ru.rtu_mirea.musspringbackend.repo.UserRepo;
 
 import java.io.File;
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class AdminService {
     @Value("${upload.path}")
     private String uploadPath;
@@ -23,11 +24,13 @@ public class AdminService {
     private final ArtistRepo artistRepo;
     private final AlbumRepo albumRepo;
     private final SongRepo songRepo;
+    private final UserRepo userRepo;
 
-    public AdminService(ArtistRepo artistRepo, AlbumRepo albumRepo, SongRepo songRepo) {
+    public AdminService(ArtistRepo artistRepo, AlbumRepo albumRepo, SongRepo songRepo, UserRepo userRepo) {
         this.artistRepo = artistRepo;
         this.albumRepo = albumRepo;
         this.songRepo = songRepo;
+        this.userRepo = userRepo;
     }
 
 
@@ -103,5 +106,52 @@ public class AdminService {
         album.setSongs(songs);
         songRepo.save(song);
         return true;
+    }
+
+    public boolean deleteArtist(Long id) {
+        if (artistRepo.findById(id).isPresent()) {
+            artistRepo.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteAlbum(Long id) {
+        if (albumRepo.findById(id).isPresent()) {
+            Artist artist = artistRepo.findByName(albumRepo.findById(id).get().getArtist());
+            Set<Album> albums = artist.getAlbums();
+            albums.remove(albumRepo.findById(id).get());
+            artist.setAlbums(albums);
+            albumRepo.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteSong(Long id) {
+        if (songRepo.findById(id).isPresent()) {
+            Album album = albumRepo.findByTitle(songRepo.findById(id).get().getAlbum());
+            Set<Song> songs = album.getSongs();
+            songs.remove(songRepo.findById(id).get());
+            album.setSongs(songs);
+            songRepo.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean changeUserActive(Long id) {
+        if (userRepo.findById(id).isPresent()) {
+            User user = userRepo.findById(id).get();
+            if (user.getRoles().contains(Role.ADMIN)) {
+                log.info("ERROR: IN SYSTEM TRY TO CHANGE ADMIN ACTIVE");
+                return false;
+            }
+            user.setActive(!user.isActive());
+            userRepo.save(user);
+            log.info("SUCCESS: CHANGE USER ACTIVE");
+            return true;
+        }
+        return false;
     }
 }

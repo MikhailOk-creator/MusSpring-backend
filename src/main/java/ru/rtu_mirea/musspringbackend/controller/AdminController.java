@@ -95,4 +95,40 @@ public class AdminController {
     public ResponseEntity<?> addSongJSON(@RequestBody Song song, @RequestParam(name = "song") MultipartFile file){
         return addSong(song, file);
     }
+
+    @DeleteMapping("/artist/delete/{id}")
+    public ResponseEntity<?> deleteArtist(@PathVariable Long id){
+        if (adminService.deleteArtist(id)){
+            return ResponseEntity.ok("Artist deleted");
+        } else {
+            return ResponseEntity.badRequest().body("Error");
+        }
+    }
+
+    @DeleteMapping("/album/delete/{id}")
+    public ResponseEntity<?> deleteAlbum(@PathVariable Long id){
+        if (adminService.deleteAlbum(id)){
+            return ResponseEntity.ok("Album deleted");
+        } else {
+            return ResponseEntity.badRequest().body("Error");
+        }
+    }
+
+    @DeleteMapping("/song/delete/{id}")
+    public ResponseEntity<?> deleteSong(@PathVariable Long id){
+        if (adminService.deleteSong(id)){
+            return ResponseEntity.ok("Song deleted");
+        } else {
+            return ResponseEntity.badRequest().body("Error");
+        }
+    }
+
+    @PatchMapping("/user/active/{id}")
+    public ResponseEntity<?> changeUserActive(@PathVariable Long id){
+        if (adminService.changeUserActive(id)){
+            return ResponseEntity.ok("User active changed");
+        } else {
+            return ResponseEntity.badRequest().body("Error");
+        }
+    }
 }

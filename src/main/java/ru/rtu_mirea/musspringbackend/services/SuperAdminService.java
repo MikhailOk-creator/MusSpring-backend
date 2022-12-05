@@ -32,9 +32,13 @@ public class SuperAdminService {
     public boolean blockAdmin(Long id) {
         try {
             User user = userRepo.findById(id).get();
-            user.setActive(false);
-            userRepo.save(user);
-            return true;
+            if (user.getRoles().contains(Role.ADMIN)) {
+                user.setActive(false);
+                userRepo.save(user);
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception e) {
             return false;
         }
@@ -43,9 +47,13 @@ public class SuperAdminService {
     public boolean unblockAdmin(Long id) {
         try {
             User user = userRepo.findById(id).get();
-            user.setActive(true);
-            userRepo.save(user);
-            return true;
+            if (user.getRoles().contains(Role.ADMIN)) {
+                user.setActive(true);
+                userRepo.save(user);
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception e) {
             return false;
         }
