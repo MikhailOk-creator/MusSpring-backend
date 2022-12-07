@@ -29,6 +29,7 @@ public class SecurityConfig {
                 .antMatchers("account/**").authenticated()
                 .antMatchers("/").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.getAuthority(), Role.SUPER_ADMIN.getAuthority())
+                .antMatchers("/super_admin/**").hasAuthority(Role.SUPER_ADMIN.getAuthority())
                 .antMatchers("/user/**").hasAuthority(Role.USER.getAuthority())
                 .anyRequest().authenticated().and().httpBasic()
                 .and()
