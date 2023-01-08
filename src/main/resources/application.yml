@@ -18,3 +18,10 @@ spring:
 
 upload:
   path: C:/Users/mikha/Documents/МИРЭА/Разработка серверных частей интернет ресурсов/Курсач/MusSpring-backend/src/main/resources/static/uploads
+
+logging:
+  file:
+    path: /
+    name: MusSpring.log
+    level:
+      ru.rtu_mirea.musspringbackend: debug
