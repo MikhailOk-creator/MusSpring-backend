@@ -1,5 +1,8 @@
 package ru.rtu_mirea.musspringbackend.services;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.rtu_mirea.musspringbackend.entity.*;
@@ -8,15 +11,23 @@ import ru.rtu_mirea.musspringbackend.repo.ArtistRepo;
 import ru.rtu_mirea.musspringbackend.repo.SongRepo;
 import ru.rtu_mirea.musspringbackend.repo.UserRepo;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
+@Slf4j
 public class MainUserService {
     public final SongRepo songRepo;
     public final AlbumRepo albumRepo;
     public final ArtistRepo artistRepo;
     public final UserRepo userRepo;
+
+    private Path foundFile;
 
     public MainUserService(SongRepo songRepo, AlbumRepo albumRepo, ArtistRepo artistRepo, UserRepo userRepo) {
         this.songRepo = songRepo;
@@ -71,6 +82,28 @@ public class MainUserService {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    public Resource getSongFile(Long id) throws IOException {
+        Song song = songRepo.findById(id).orElse(null);
+        Path path = Paths.get("src/main/resources/static/uploads/mus");
+        // log.info("Try to find file: " + song.getFilename());
+        Files.list(path).forEach(file -> {
+            // log.info("Found file: " + file.getFileName());
+            String filename = file.getFileName().toString();
+
+            if (filename.equals(song.getFilename())) {
+                foundFile = file;
+                // log.info("File found: " + file.getFileName());
+                return;
+            }
+        });
+
+        if (foundFile != null) {
+            return new UrlResource(foundFile.toUri());
+        } else {
+            return null;
         }
     }
 }
