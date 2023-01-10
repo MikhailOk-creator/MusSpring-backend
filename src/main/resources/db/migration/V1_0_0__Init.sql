@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS artist_t (
     name VARCHAR(255) NOT NULL,
     country VARCHAR(255) NOT NULL,
     description VARCHAR(255),
-    image_url VARCHAR(255)
+    image VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS album_t (
@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS album_t (
     image VARCHAR(255),
     duration VARCHAR(255),
     genre VARCHAR(255),
+    path VARCHAR(255),
     label VARCHAR(255) NOT NULL,
     tracks INT NOT NULL
 );
@@ -37,6 +38,7 @@ CREATE TABLE IF NOT EXISTS album_t (
 CREATE TABLE IF NOT EXISTS song_t (
     id int8 not null generated always as identity primary key,
     title VARCHAR(255) NOT NULL,
+    artist VARCHAR(255) NOT NULL,
     album VARCHAR(255) NOT NULL,
     duration VARCHAR(255) NOT NULL,
     genre VARCHAR(255) NOT NULL,
@@ -61,8 +63,9 @@ CREATE TABLE IF NOT EXISTS album_song_t (
     foreign key (song_id) references song_t(id)
 );
 
-alter table user_role_t add constraint user_role_t_user_id_fk foreign key (user_id) references user_t(id);
+alter table user_role_t add constraint user_role_t_id_fk foreign key (user_id) references user_t;
 
-alter table artist_album_t add constraint artist_album_t_artist_id_fk foreign key (artist_id) references artist_t(id);
-alter table artist_album_t add constraint artist_album_t_album_id_fk foreign key (album_id) references album_t(id);
-alter table album_song_t add constraint album_song_t_album_id_fk foreign key (album_id) references album_t(id);
+alter table artist_album_t add constraint artist_album_t_artist_id_fk foreign key (artist_id) references artist_t;
+alter table artist_album_t add constraint artist_album_t_album_id_fk foreign key (album_id) references album_t;
+alter table album_song_t add constraint album_song_t_album_id_fk foreign key (album_id) references album_t;
+alter table album_song_t add constraint album_song_t_song_id_fk foreign key (song_id) references song_t;

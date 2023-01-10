@@ -70,7 +70,7 @@ public class AdminService {
             String resultFilename = uuidFile + "." + file.getOriginalFilename();
             album.setCover_filename(resultFilename);
             try {
-                file.transferTo(new File(uploadPath + "/img/" + resultFilename));
+                file.transferTo(new File(uploadPath + "/" + resultFilename));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -95,7 +95,7 @@ public class AdminService {
             String resultFilename = uuidFile + "." + file.getOriginalFilename();
             song.setFilename(resultFilename);
             try {
-                file.transferTo(new File(uploadPath + "/mus/" + resultFilename));
+                file.transferTo(new File(uploadPath + "/" + resultFilename));
             } catch (Exception e) {
                 e.printStackTrace();
             }

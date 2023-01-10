@@ -12,6 +12,7 @@ services:
       - database
     volumes:
       - ./data:/back_info
+      - ./data/files:/storage
 
   database:
     container_name: musspring_database
