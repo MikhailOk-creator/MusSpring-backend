@@ -7,7 +7,7 @@
     <!-- Скрипт выводящий таблицу песен содержащую название, исполнителя, сам аудиофайл, альбом, год издания. Данные получают по запросу: localhosh:8080/admin/song/all-->
     <script>
         $(document).ready(function getFromJson() {
-            $.getJSON("http://localhost:8080/admin/song/all", function (data) {
+            $.getJSON("http://localhost:80/admin/song/all", function (data) {
                 var items = [];
                 $.each(data, function (key, val) {
                     items.push("<tr><td>" + val.title + "</td><td>" + val.artist + "</td><td><audio controls><source src='uploads/mus/" + val.filename + "' type='audio/mpeg'></audio></td><td>" + val.album + "</td><td>" + val.releaseYear + "</td></tr>");

@@ -7,10 +7,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         $(document).ready(function getFromJson() {
-            $.getJSON("http://localhost:8080/artist/all", function (data) {
+            $.getJSON("http://localhost:80/artist/all", function (data) {
                 var items = [];
                 $.each(data, function (key, val) {
-                    items.push("<li id='" + key + "'><a href='http://localhost:8080/artist/" + (key + 1) +"'>" + val.name + "</a></li>");
+                    items.push("<li id='" + key + "'><a href='http://localhost:80/artist/" + (key + 1) +"'>" + val.name + "</a></li>");
                 });
                 $("<ul/>", {
                     "class": "my-new-list",

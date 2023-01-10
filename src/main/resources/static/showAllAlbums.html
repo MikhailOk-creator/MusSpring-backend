@@ -6,7 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         $(document).ready(function getFromJson() {
-            $.getJSON("http://localhost:8080/admin/album/all", function (data) {
+            $.getJSON("http://localhost:80/admin/album/all", function (data) {
                 var items = [];
                 $.each(data, function (key, val) {
                     items.push("<tr><td>" + val.title + "</td><td>" + val.artist + "</td><td>" + val.releaseYear + "</td><td><img src='uploads/img/" + val.cover_filename + "' width='100' height='100'></td><td>" + val.label + "</td></tr>");
