@@ -3,14 +3,21 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/musspring
-    username: postgres
-    password: 1994R
+    # Settings for connecting to the local DB
+#    url: jdbc:postgresql://localhost:5432/musspring
+#    username: postgres
+#    password: 1994R
+
+    # Settings for connecting to the DB in Docker
+    url: jdbc:postgresql://musspring_database:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
     driver-class-name: org.postgresql.Driver
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
-    generate-ddl: true
+    generate-ddl: false
   servlet:
     multipart:
       max-file-size: 20MB
@@ -21,7 +28,11 @@ upload:
 
 logging:
   file:
-    path: /
-    name: MusSpring.log
-    level:
-      ru.rtu_mirea.musspringbackend: debug
+    name: /back_info/musspring_backend.log
+
+admin:
+  username: ${ADMIN_USERNAME}
+  password: ${ADMIN_PASSWORD}
+  email: ${ADMIN_EMAIL}
+  real_name: ${ADMIN_REAL_NAME}
+  second_name: ${ADMIN_SECOND_NAME}

@@ -12,7 +12,7 @@ import java.util.Set;
 @Table(name = "album_t")
 public class Album {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

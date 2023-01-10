@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "song_t")
 public class Song {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
