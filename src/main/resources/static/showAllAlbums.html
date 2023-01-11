@@ -9,7 +9,7 @@
             $.getJSON("http://localhost:80/admin/album/all", function (data) {
                 var items = [];
                 $.each(data, function (key, val) {
-                    items.push("<tr><td>" + val.title + "</td><td>" + val.artist + "</td><td>" + val.releaseYear + "</td><td><img src=" + val.cover_filename + "'storage/img/' width='100' height='100'></td><td>" + val.label + "</td></tr>");
+                    items.push("<tr><td>" + val.title + "</td><td>" + val.artist + "</td><td>" + val.releaseYear + "</td><td><img src='http://localhost:80/download/album_cover/" + val.id + "' width='100' height='100'></td><td>" + val.label + "</td></tr>");
                 });
                 $("<table/>", {
                     "class": "my-new-list",

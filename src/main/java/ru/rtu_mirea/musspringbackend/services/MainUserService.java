@@ -18,7 +18,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
@@ -92,14 +91,36 @@ public class MainUserService {
     public Resource getSongFile(Long id) throws IOException {
         Song song = songRepo.findById(id).orElse(null);
         Path path = Paths.get(downloadPath);
-        log.info("Try to find file: " + song.getFilename());
+        // log.info("Try to find file: " + song.getFilename());
         Files.list(path).forEach(file -> {
-            log.info("Found file: " + file.getFileName());
+            // log.info("Found file: " + file.getFileName());
             String filename = file.getFileName().toString();
 
             if (filename.equals(song.getFilename())) {
                 foundFile = file;
-                log.info("File found: " + file.getFileName());
+                // log.info("File found: " + file.getFileName());
+                return;
+            }
+        });
+
+        if (foundFile != null) {
+            return new UrlResource(foundFile.toUri());
+        } else {
+            return null;
+        }
+    }
+
+    public Resource getAlbumCoverFile(Long id) throws IOException {
+        Album album = albumRepo.findById(id).orElse(null);
+        Path path = Paths.get(downloadPath);
+        // log.info("Try to find file: " + album.getCover_filename());
+        Files.list(path).forEach(file -> {
+            // log.info("Found file: " + file.getFileName());
+            String filename = file.getFileName().toString();
+
+            if (filename.equals(album.getCover_filename())) {
+                foundFile = file;
+                // log.info("File found: " + file.getFileName());
                 return;
             }
         });
