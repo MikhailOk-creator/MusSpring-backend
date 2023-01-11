@@ -1,6 +1,7 @@
 package ru.rtu_mirea.musspringbackend.services;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +29,9 @@ public class MainUserService {
     public final UserRepo userRepo;
 
     private Path foundFile;
+
+    @Value("${download.path}")
+    private String downloadPath;
 
     public MainUserService(SongRepo songRepo, AlbumRepo albumRepo, ArtistRepo artistRepo, UserRepo userRepo) {
         this.songRepo = songRepo;
@@ -87,15 +91,15 @@ public class MainUserService {
 
     public Resource getSongFile(Long id) throws IOException {
         Song song = songRepo.findById(id).orElse(null);
-        Path path = Paths.get("src/main/resources/static/uploads/mus");
-        // log.info("Try to find file: " + song.getFilename());
+        Path path = Paths.get(downloadPath);
+        log.info("Try to find file: " + song.getFilename());
         Files.list(path).forEach(file -> {
-            // log.info("Found file: " + file.getFileName());
+            log.info("Found file: " + file.getFileName());
             String filename = file.getFileName().toString();
 
             if (filename.equals(song.getFilename())) {
                 foundFile = file;
-                // log.info("File found: " + file.getFileName());
+                log.info("File found: " + file.getFileName());
                 return;
             }
         });

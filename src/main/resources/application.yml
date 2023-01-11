@@ -30,6 +30,10 @@ upload:
   # The directory in resources folder of Spring Boot project
 #  path: ${user.dir}/src/main/resources/storage
 
+download:
+  path: /storage
+#  path: src/main/resources/storage/mus
+
 logging:
   file:
     name: /back_info/musspring_backend.log
