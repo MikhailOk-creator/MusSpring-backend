@@ -24,15 +24,10 @@ spring:
       max-request-size: 20MB
 
 upload:
-  # Path to the directory in container
-  path: /storage
-  # Path to the local directory (uncomment if you want to use local storage)
-  # The directory in resources folder of Spring Boot project
-#  path: ${user.dir}/src/main/resources/storage
+  path: ${DATA_DIR}
 
 download:
-  path: /storage
-#  path: src/main/resources/storage/mus
+  path: ${DATA_DIR}
 
 logging:
   file:
@@ -44,7 +39,3 @@ admin:
   email: ${ADMIN_EMAIL}
   real_name: ${ADMIN_REAL_NAME}
   second_name: ${ADMIN_SECOND_NAME}
-
-# Path to the project from the root of OS (uncomment if you want to use local storage)
-#user:
-#  dir:
