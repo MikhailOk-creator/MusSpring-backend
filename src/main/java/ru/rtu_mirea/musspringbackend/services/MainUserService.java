@@ -82,6 +82,12 @@ public class MainUserService {
             user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
             user.setRoles(Set.of(Role.USER));
             userRepo.save(user);
+            log.info("New User added with data: " + '\n' +
+                    "Username: {}" + '\n' +
+                    "Email: {}" + '\n' +
+                    "Real Name: {}"  + '\n' +
+                    "Second Name: {}",
+                    user.getUsername(), user.getUsername(), user.getRealName(), user.getSurname());
             return true;
         } catch (Exception e) {
             return false;

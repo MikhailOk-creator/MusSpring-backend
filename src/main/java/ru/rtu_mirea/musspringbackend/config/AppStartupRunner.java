@@ -39,7 +39,7 @@ public class AppStartupRunner implements ApplicationRunner {
             if(superAdminService.addSuperAdmin()) {
                 log.info("Admin created");
             } else {
-                log.info("ERROR");
+                log.error("Admin not created. Check .env file");
             }
         } else {
             log.info("Admin already exists");
