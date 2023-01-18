@@ -12,5 +12,5 @@ A Super Admin is created at system startup if it is not in the Database. If you 
 If you want to connect service to local Database you need to change settings in _application.yml_. All tables in a local DB will be created automatically by Flyway. The SQL-script for Flyway you can find in _src/main/resources/db/migration_.
 
 Docker ports:
-- backend: 80
+- backend: 8080
 - database: 5433 (if PostgreSQL is not running on the host, set port 5432 to _docker-compose.yml_)
