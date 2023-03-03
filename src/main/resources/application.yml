@@ -9,7 +9,7 @@ spring:
 #    password: 1994R
 
     # Settings for connecting to the DB in Docker
-    url: jdbc:postgresql://musspring_database:5432/${POSTGRES_DB}
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
 

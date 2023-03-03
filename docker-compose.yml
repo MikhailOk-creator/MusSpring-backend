@@ -6,7 +6,6 @@ services:
     ports:
       - "8080:8080"
     env_file:
-      - db.env
       - .env
     depends_on:
       - database
@@ -20,4 +19,4 @@ services:
     ports:
       - "5433:5432"
     env_file:
-      - db.env
+      - .env
