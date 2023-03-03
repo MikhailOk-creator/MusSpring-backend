@@ -1,25 +1,28 @@
 package ru.rtu_mirea.musspringbackend.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.rtu_mirea.musspringbackend.entity.Role;
+import ru.rtu_mirea.musspringbackend.filter.JwtAuthFilter;
 import ru.rtu_mirea.musspringbackend.repo.UserRepo;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-
     private final UserDetailsService userDetailsService;
-
-    public SecurityConfig(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+    private final JwtAuthFilter jwtAuthFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -27,7 +30,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/artist/**", "/album/**", "/song/**", "/registration", "/download/**").permitAll()
                 .antMatchers("account/**").authenticated()
-                .antMatchers("/").permitAll()
+                .antMatchers("/", "/api/auth/**").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.getAuthority(), Role.SUPER_ADMIN.getAuthority())
                 .antMatchers("/super_admin/**").hasAuthority(Role.SUPER_ADMIN.getAuthority())
                 .antMatchers("/user/**").hasAuthority(Role.USER.getAuthority())
@@ -35,17 +38,21 @@ public class SecurityConfig {
                 .and()
                 .formLogin()
                 .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authenticationProvider(daoAuthenticationProvider())
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic();
         return http.build();
     }
 
     /**
      * Authentication provider.
-     * @param userRepo user repository
      * @return authentication provider
      */
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(UserRepo userRepo) {
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
@@ -58,5 +65,10 @@ public class SecurityConfig {
      */
     private BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }
