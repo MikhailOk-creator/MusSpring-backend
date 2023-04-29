@@ -1,4 +1,4 @@
-FROM openjdk:17.0.2
+FROM openjdk:20
 
 RUN mkdir -p /back_info
 RUN touch /back_info/musspring_backend.log
