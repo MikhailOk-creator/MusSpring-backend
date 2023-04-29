@@ -195,4 +195,8 @@ public class AdminService {
         }
         return false;
     }
+
+    public List<User> getAllUsers() {
+        return userRepo.findAll();
+    }
 }

@@ -131,4 +131,9 @@ public class AdminController {
             return ResponseEntity.badRequest().body("Error");
         }
     }
+
+    @GetMapping("/user/all")
+    public ResponseEntity<?> getAllUsers() {
+        return ResponseEntity.ok(adminService.getAllUsers());
+    }
 }
