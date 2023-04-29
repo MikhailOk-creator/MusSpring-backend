@@ -36,17 +36,17 @@ public class AdminService {
 
     // Get all songs
     public List<Song> getAllSongs() {
-        return songRepo.findAll();
+        return songRepo.findAllByOrderByIdAsc();
     }
 
     // Get all albums
     public List<Album> getAllAlbums() {
-        return albumRepo.findAll();
+        return albumRepo.findAllByOrderByIdAsc();
     }
 
     // Get all artists
     public List<Artist> getAllArtists() {
-        return artistRepo.findAll();
+        return artistRepo.findAllByOrderByIdAsc();
     }
 
     public boolean addArtist(Artist artist) {
@@ -197,6 +197,6 @@ public class AdminService {
     }
 
     public List<User> getAllUsers() {
-        return userRepo.findAll();
+        return userRepo.findAllByOrderByIdAsc();
     }
 }
