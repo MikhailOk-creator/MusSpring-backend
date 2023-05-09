@@ -8,6 +8,7 @@ import ru.rtu_mirea.musspringbackend.services.SuperAdminService;
 
 @Controller
 @RequestMapping("/super_admin")
+@CrossOrigin(origins = "*")
 public class SuperAdminController {
     private final SuperAdminService superAdminService;
 

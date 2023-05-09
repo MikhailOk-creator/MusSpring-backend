@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 @Controller
 @RequestMapping("/user")
+@CrossOrigin(origins = "*")
 public class AuthUserController {
     public final AuthUserService authUserService;
     private final UserRepo userRepo;

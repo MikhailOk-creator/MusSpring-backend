@@ -15,6 +15,7 @@ import javax.sound.sampled.AudioFileFormat;
 
 @Controller
 @RequestMapping("/admin")
+@CrossOrigin(origins = "*")
 public class AdminController {
     private final MainUserService mainUserService;
     private final AdminService adminService;

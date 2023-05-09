@@ -9,6 +9,7 @@ import ru.rtu_mirea.musspringbackend.services.AdminService;
 import ru.rtu_mirea.musspringbackend.services.MainUserService;
 
 @Controller
+@CrossOrigin(origins = "*")
 public class MainUserController {
     private final MainUserService service;
     private final AdminService adminService;
