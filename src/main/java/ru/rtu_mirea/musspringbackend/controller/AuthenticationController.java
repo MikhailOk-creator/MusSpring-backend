@@ -24,7 +24,7 @@ public class AuthenticationController {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
         final UserDetails user = customUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         if (user != null) {
-            return ResponseEntity.ok(jwtUtils.generateToken(user));
+            return ResponseEntity.ok("{\"token\":\"" + jwtUtils.generateToken(user) + "\"}");
         }
         return ResponseEntity.status(400).body("ERROR");
     }
