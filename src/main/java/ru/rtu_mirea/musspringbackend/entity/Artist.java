@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,5 +33,5 @@ public class Artist {
             joinColumns = @JoinColumn(name = "artist_id"),
             inverseJoinColumns = @JoinColumn(name = "album_id")
     )
-    private Set<Album> albums;
+    private List<Album> albums;
 }

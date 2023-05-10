@@ -71,7 +71,7 @@ public class MainUserService {
 
     public List<Album> getArtistAlbums(Long id) {
         Artist artist = artistRepo.findById(id).orElse(null);
-        Set albums = artist.getAlbums();
+        List albums = artist.getAlbums();
         List list = List.copyOf(albums);
         return list;
     }

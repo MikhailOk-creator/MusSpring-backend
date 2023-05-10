@@ -10,4 +10,5 @@ import java.util.List;
 public interface AlbumRepo extends JpaRepository<Album, Long> {
     Album findByTitle(String name);
     List<Album> findAllByOrderByIdAsc();
+    List<Album> findAllByOrderByReleaseYearDesc();
 }

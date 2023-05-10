@@ -30,5 +30,5 @@ public class Song {
     @Column(name = "path")
     private String filename;
     @Column(name = "track_number", nullable = false)
-    private int track_number;
+    private int trackNumber;
 }

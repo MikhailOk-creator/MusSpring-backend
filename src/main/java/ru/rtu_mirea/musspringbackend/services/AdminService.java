@@ -14,6 +14,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -41,12 +43,51 @@ public class AdminService {
 
     // Get all albums
     public List<Album> getAllAlbums() {
-        return albumRepo.findAllByOrderByIdAsc();
+        return albumRepo.findAllByOrderByReleaseYearDesc();
     }
 
     // Get all artists
     public List<Artist> getAllArtists() {
-        return artistRepo.findAllByOrderByIdAsc();
+        try {
+            List<Artist> allArtist = artistRepo.findAllByOrderByIdAsc();
+
+            for (int i = 0; i < allArtist.size(); i++) {
+                List<Album> albums = allArtist.get(i).getAlbums();
+                for (Album album : albums) {
+                    List<Song> songs = album.getSongs();
+                    songs.sort((o1, o2) -> {
+                        if (o1.getTrackNumber() > o2.getTrackNumber()) {
+                            return 1;
+                        } else if (o1.getTrackNumber() < o2.getTrackNumber()) {
+                            return -1;
+                        } else {
+                            return 0;
+                        }
+                    });
+                    album.setSongs(songs);
+                }
+                allArtist.get(i).setAlbums(albums);
+
+                // Sort albums by release year
+                albums.sort((o1, o2) -> {
+                    int y1 = Integer.parseInt(o1.getReleaseYear());
+                    int y2 = Integer.parseInt(o2.getReleaseYear());
+                    if (y1 < y2) {
+                        return -1;
+                    } else if (y1 > y2) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                });
+                allArtist.get(i).setAlbums(albums);
+            }
+
+            return allArtist;
+        } catch (Exception e) {
+            log.error("{}", e.getMessage());
+            return null;
+        }
     }
 
     public boolean addArtist(Artist artist) {
@@ -80,7 +121,7 @@ public class AdminService {
             }
         }
         Artist artist = artistRepo.findByName(album.getArtist());
-        Set<Album> albums = artist.getAlbums();
+        List<Album> albums = artist.getAlbums();
         albums.add(album);
         artist.setAlbums(albums);
         artistRepo.save(artist);
@@ -121,7 +162,7 @@ public class AdminService {
             }
         }
         Album album = albumRepo.findByTitle(song.getAlbum());
-        Set<Song> songs = album.getSongs();
+        List<Song> songs = album.getSongs();
         songs.add(song);
         album.setSongs(songs);
         songRepo.save(song);
@@ -135,7 +176,7 @@ public class AdminService {
                 "Filename: {}" + '\n' +
                 "Track number: {}",
                 song.getTitle(), song.getArtist(), song.getAlbum(), song.getGenre(), song.getReleaseYear(),
-                song.getDuration(), song.getFilename(), song.getTrack_number()
+                song.getDuration(), song.getFilename(), song.getTrackNumber()
         );
         return true;
     }
@@ -155,7 +196,7 @@ public class AdminService {
         if (albumRepo.findById(id).isPresent()) {
             Artist artist = artistRepo.findByName(albumRepo.findById(id).get().getArtist());
             String titleOfAlbum = albumRepo.findById(id).get().getTitle();
-            Set<Album> albums = artist.getAlbums();
+            List<Album> albums = artist.getAlbums();
             albums.remove(albumRepo.findById(id).get());
             artist.setAlbums(albums);
             albumRepo.deleteById(id);
@@ -170,7 +211,7 @@ public class AdminService {
         if (songRepo.findById(id).isPresent()) {
             String titleOfSong = songRepo.findById(id).get().getTitle();
             Album album = albumRepo.findByTitle(songRepo.findById(id).get().getAlbum());
-            Set<Song> songs = album.getSongs();
+            List<Song> songs = album.getSongs();
             songs.remove(songRepo.findById(id).get());
             album.setSongs(songs);
             songRepo.deleteById(id);
