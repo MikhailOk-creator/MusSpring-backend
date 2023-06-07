@@ -19,27 +19,31 @@ public class SuperAdminController {
     @PostMapping("/admin/add")
     public ResponseEntity<?> addAdmin(@RequestBody User user) {
         if (superAdminService.addAdmin(user)) {
-            return ResponseEntity.ok("Admin added");
+            return ResponseEntity.ok(returnJSONMessage("Admin added"));
         } else {
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
         }
     }
 
     @PatchMapping("/admin/block/{id}")
     public ResponseEntity<?> blockAdmin(@PathVariable Long id) {
         if (superAdminService.blockAdmin(id)) {
-            return ResponseEntity.ok("Admin blocked");
+            return ResponseEntity.ok(returnJSONMessage("Admin blocked"));
         } else {
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
         }
     }
 
     @PatchMapping("/admin/unblock/{id}")
     public ResponseEntity<?> unblockAdmin(@PathVariable Long id) {
         if (superAdminService.unblockAdmin(id)) {
-            return ResponseEntity.ok("Admin unblocked");
+            return ResponseEntity.ok(returnJSONMessage("Admin unblocked"));
         } else {
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
         }
+    }
+
+    private String returnJSONMessage (String text) {
+        return "{\"message\":\"" + text + "\"}";
     }
 }

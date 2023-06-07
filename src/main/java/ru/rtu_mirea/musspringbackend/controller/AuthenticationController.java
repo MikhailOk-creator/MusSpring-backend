@@ -26,6 +26,6 @@ public class AuthenticationController {
         if (user != null) {
             return ResponseEntity.ok("{\"token\":\"" + jwtUtils.generateToken(user) + "\"}");
         }
-        return ResponseEntity.status(400).body("ERROR");
+        return ResponseEntity.status(400).body("{\"token\":\"ERROR\"}");
     }
 }

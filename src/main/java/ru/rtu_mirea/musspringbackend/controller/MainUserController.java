@@ -53,14 +53,18 @@ public class MainUserController {
     public ResponseEntity<?> registration(@RequestBody User user) {
         try {
             service.addUser(user);
-            return ResponseEntity.ok("User added");
+            return ResponseEntity.ok(returnJSONMessage("User added"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
         }
     }
 
     @GetMapping("/artist/all")
     public ResponseEntity<?> getAllArtists(){
         return ResponseEntity.ok(adminService.getAllArtists());
+    }
+
+    private String returnJSONMessage (String text) {
+        return "{\"message\":\"" + text + "\"}";
     }
 }

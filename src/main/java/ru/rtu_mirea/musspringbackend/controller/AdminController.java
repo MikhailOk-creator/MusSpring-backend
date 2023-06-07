@@ -43,13 +43,13 @@ public class AdminController {
     @PostMapping("/artist/add/JSON")
     public ResponseEntity<?> addArtist(@RequestBody Artist artist){
         if (mainUserService.getArtistByName(artist.getName()) != null){
-            return ResponseEntity.badRequest().body("Artist already exists");
+            return ResponseEntity.badRequest().body(returnJSONMessage("Artist already exists"));
         } else {
             try {
                 adminService.addArtist(artist);
-                return ResponseEntity.ok("Artist added");
+                return ResponseEntity.ok(returnJSONMessage("Artist added"));
             } catch (Exception e){
-                return ResponseEntity.badRequest().body("Error");
+                return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
             }
         }
     }
@@ -62,13 +62,13 @@ public class AdminController {
     @PostMapping("/album/add")
     public ResponseEntity<?> addAlbum(@ModelAttribute Album album, @RequestParam("image") MultipartFile file){
         if (mainUserService.getAlbumByName(album.getTitle()) != null){
-            return ResponseEntity.badRequest().body("Album already exists");
+            return ResponseEntity.badRequest().body(returnJSONMessage("Album already exists"));
         } else {
             try {
                 adminService.addAlbum(album, file);
-                return ResponseEntity.ok("Album added");
+                return ResponseEntity.ok(returnJSONMessage("Album added"));
             } catch (Exception e){
-                return ResponseEntity.badRequest().body("Error");
+                return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
             }
         }
     }
@@ -85,9 +85,9 @@ public class AdminController {
         } else {
             try {
                 adminService.addSong(song, file);
-                return ResponseEntity.ok("Song added");
+                return ResponseEntity.ok(returnJSONMessage("Song added"));
             } catch (Exception e){
-                return ResponseEntity.badRequest().body("Error");
+                return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
             }
         }
     }
@@ -100,41 +100,45 @@ public class AdminController {
     @DeleteMapping("/artist/delete/{id}")
     public ResponseEntity<?> deleteArtist(@PathVariable Long id){
         if (adminService.deleteArtist(id)){
-            return ResponseEntity.ok("Artist deleted");
+            return ResponseEntity.ok(returnJSONMessage("Artist deleted"));
         } else {
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
         }
     }
 
     @DeleteMapping("/album/delete/{id}")
     public ResponseEntity<?> deleteAlbum(@PathVariable Long id){
         if (adminService.deleteAlbum(id)){
-            return ResponseEntity.ok("Album deleted");
+            return ResponseEntity.ok(returnJSONMessage("Album deleted"));
         } else {
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body(returnJSONMessage("Album deleted"));
         }
     }
 
     @DeleteMapping("/song/delete/{id}")
     public ResponseEntity<?> deleteSong(@PathVariable Long id){
         if (adminService.deleteSong(id)){
-            return ResponseEntity.ok("Song deleted");
+            return ResponseEntity.ok(returnJSONMessage("Song deleted"));
         } else {
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
         }
     }
 
     @PatchMapping("/user/active/{id}")
     public ResponseEntity<?> changeUserActive(@PathVariable Long id){
         if (adminService.changeUserActive(id)){
-            return ResponseEntity.ok("User active changed");
+            return ResponseEntity.ok(returnJSONMessage("User active changed"));
         } else {
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
         }
     }
 
     @GetMapping("/user/all")
     public ResponseEntity<?> getAllUsers() {
         return ResponseEntity.ok(adminService.getAllUsers());
+    }
+
+    private String returnJSONMessage (String text) {
+        return "{\"message\":\"" + text + "\"}";
     }
 }

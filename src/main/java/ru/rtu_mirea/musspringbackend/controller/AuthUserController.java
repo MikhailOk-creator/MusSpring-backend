@@ -42,10 +42,10 @@ public class AuthUserController {
             if (newSurname != null && !newSurname.isEmpty() && !newSurname.equals(user.getEmail()) && newSurname != "") {
                 authUserService.editSurname(user.getId(), newSurname);
             }
-            return ResponseEntity.ok("Data changed successfully");
+            return ResponseEntity.ok(returnJSONMessage("Data changed successfully"));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body("Error while changing data");
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error while changing data"));
         }
     }
 
@@ -56,13 +56,17 @@ public class AuthUserController {
             User user = userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
             if (new BCryptPasswordEncoder().matches(oldPassword, user.getPassword())) {
                 authUserService.editPassword(user.getId(), newPassword);
-                return ResponseEntity.ok("Password changed successfully");
+                return ResponseEntity.ok(returnJSONMessage("Password changed successfully"));
             } else {
-                return ResponseEntity.badRequest().body("Wrong password");
+                return ResponseEntity.badRequest().body(returnJSONMessage("Wrong password"));
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body("Error while changing password");
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error while changing password"));
         }
+    }
+
+    private String returnJSONMessage (String text) {
+        return "{\"message\":\"" + text + "\"}";
     }
 }
