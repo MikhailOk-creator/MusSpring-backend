@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.rtu_mirea.musspringbackend.dto.NewUserDTO;
 import ru.rtu_mirea.musspringbackend.entity.User;
 import ru.rtu_mirea.musspringbackend.repo.UserRepo;
 import ru.rtu_mirea.musspringbackend.services.AuthUserService;
@@ -24,23 +25,20 @@ public class AuthUserController {
     }
 
     @PatchMapping("/update/data")
-    public ResponseEntity<?> editData(@RequestParam String newEmail,
-                                      @RequestParam String newUsername,
-                                      @RequestParam String newRealName,
-                                      @RequestParam String newSurname) {
+    public ResponseEntity<?> editData(@RequestBody NewUserDTO newUser) {
         try {
             User user = userRepo.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-            if (newEmail != null && !newEmail.isEmpty() && !newEmail.equals(user.getEmail()) && newEmail != "") {
-                authUserService.editEmail(user.getId(), newEmail);
+            if (newUser.getNewEmail() != null && !newUser.getNewEmail().isEmpty() && !newUser.getNewEmail().equals(user.getEmail()) && newUser.getNewEmail() != "") {
+                authUserService.editEmail(user.getId(), newUser.getNewEmail());
             }
-            if (newUsername != null && !newUsername.isEmpty() && !newUsername.equals(user.getEmail()) && newUsername != "") {
-                authUserService.editUsername(user.getId(), newUsername);
+            if (newUser.getNewUsername() != null && !newUser.getNewUsername().isEmpty() && !newUser.getNewUsername().equals(user.getEmail()) && newUser.getNewUsername() != "") {
+                authUserService.editUsername(user.getId(), newUser.getNewUsername());
             }
-            if (newRealName != null && !newRealName.isEmpty() && !newRealName.equals(user.getEmail()) && newRealName != "") {
-                authUserService.editRealName(user.getId(), newRealName);
+            if (newUser.getNewRealName() != null && !newUser.getNewRealName().isEmpty() && !newUser.getNewRealName().equals(user.getEmail()) && newUser.getNewRealName() != "") {
+                authUserService.editRealName(user.getId(), newUser.getNewRealName());
             }
-            if (newSurname != null && !newSurname.isEmpty() && !newSurname.equals(user.getEmail()) && newSurname != "") {
-                authUserService.editSurname(user.getId(), newSurname);
+            if (newUser.getNewSurname() != null && !newUser.getNewSurname().isEmpty() && !newUser.getNewSurname().equals(user.getEmail()) && newUser.getNewSurname() != "") {
+                authUserService.editSurname(user.getId(), newUser.getNewSurname());
             }
             return ResponseEntity.ok(returnJSONMessage("Data changed successfully"));
         } catch (Exception e) {
