@@ -35,4 +35,31 @@ public class User {
     @CollectionTable(name = "user_role_t", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    /** List of user's liked songs
+     * @see Song **/
+    @ManyToMany
+    @JoinTable(
+            name = "user_song_t",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id"))
+    private Set<Song> likedSongs;
+
+    /** List of user's liked album
+     * @see Album **/
+    @ManyToMany
+    @JoinTable(
+            name = "user_album_t",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "album_id"))
+    private Set<Album> likedAlbums;
+
+    /** List of user's liked artists
+     * @see Artist **/
+    @ManyToMany
+    @JoinTable(
+            name = "user_artist_t",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "artist_id"))
+    private Set<Artist> likedArtists;
 }

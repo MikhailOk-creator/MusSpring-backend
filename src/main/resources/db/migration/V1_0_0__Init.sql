@@ -63,6 +63,30 @@ CREATE TABLE IF NOT EXISTS album_song_t (
     foreign key (song_id) references song_t(id)
 );
 
+CREATE TABLE IF NOT EXISTS user_song_t (
+    user_id INT NOT NULL,
+    song_id INT NOT NULL,
+    PRIMARY KEY (user_id, song_id),
+    foreign key (user_id) references user_t(id),
+    foreign key (song_id) references song_t(id)
+);
+
+CREATE TABLE IF NOT EXISTS user_album_t (
+    user_id INT NOT NULL,
+    album_id INT NOT NULL,
+    PRIMARY KEY (user_id, album_id),
+    foreign key (user_id) references user_t(id),
+    foreign key (album_id) references album_t(id)
+);
+
+CREATE TABLE IF NOT EXISTS user_artist_t (
+    user_id INT NOT NULL,
+    artist_id INT NOT NULL,
+    PRIMARY KEY (user_id, artist_id),
+    foreign key (user_id) references user_t(id),
+    foreign key (artist_id) references artist_t(id)
+);
+
 alter table user_role_t add constraint user_role_t_id_fk foreign key (user_id) references user_t;
 
 alter table artist_album_t add constraint artist_album_t_artist_id_fk foreign key (artist_id) references artist_t;
