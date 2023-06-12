@@ -64,6 +64,19 @@ public class MainUserController {
         return ResponseEntity.ok(adminService.getAllArtists());
     }
 
+    @GetMapping("/artist/like/{id}")
+    public ResponseEntity<?> likeArtist(@RequestParam(name = "id") Long id, @RequestParam(name = "userId") Long userId){
+        try {
+            if(service.likeArtist(id, userId)) {
+                return ResponseEntity.ok(returnJSONMessage("Artist liked"));
+            } else {
+                // return ResponseEntity.ok(returnJSONMessage("Artist disliked"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
+        }
+    }
+
     private String returnJSONMessage (String text) {
         return "{\"message\":\"" + text + "\"}";
     }
