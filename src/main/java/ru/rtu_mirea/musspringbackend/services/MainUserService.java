@@ -137,4 +137,46 @@ public class MainUserService {
             return null;
         }
     }
+
+    public boolean likeSong (Long songId, Long userId) {
+        try {
+            Song song = songRepo.findById(songId).orElse(null);
+            User user = userRepo.findById(userId).orElse(null);
+            Set<Song> likedSongs = user.getLikedSongs();
+            likedSongs.add(song);
+            user.setLikedSongs(likedSongs);
+            userRepo.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean likeAlbum (Long albumId, Long userId) {
+        try {
+            Album album = albumRepo.findById(albumId).orElse(null);
+            User user = userRepo.findById(userId).orElse(null);
+            Set<Album> likedAlbums = user.getLikedAlbums();
+            likedAlbums.add(album);
+            user.setLikedAlbums(likedAlbums);
+            userRepo.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean likeArtist (Long artistId, Long userId) {
+        try {
+            Artist artist = artistRepo.findById(artistId).orElse(null);
+            User user = userRepo.findById(userId).orElse(null);
+            Set<Artist> likedArtists = user.getLikedArtists();
+            likedArtists.add(artist);
+            user.setLikedArtists(likedArtists);
+            userRepo.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
