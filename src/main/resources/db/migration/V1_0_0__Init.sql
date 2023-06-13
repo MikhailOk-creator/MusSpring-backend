@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS user_t (
 );
 
 CREATE TABLE IF NOT EXISTS user_role_t (
-    user_id INT NOT NULL,
+    user_id INT NOT NULL primary key,
     roles VARCHAR(20) NOT NULL,
-    PRIMARY KEY (user_id)
+    foreign key (user_id) references user_t(id)
 );
 
 CREATE TABLE IF NOT EXISTS artist_t (
@@ -86,10 +86,3 @@ CREATE TABLE IF NOT EXISTS user_artist_t (
     foreign key (user_id) references user_t(id),
     foreign key (artist_id) references artist_t(id)
 );
-
-alter table user_role_t add constraint user_role_t_id_fk foreign key (user_id) references user_t;
-
-alter table artist_album_t add constraint artist_album_t_artist_id_fk foreign key (artist_id) references artist_t;
-alter table artist_album_t add constraint artist_album_t_album_id_fk foreign key (album_id) references album_t;
-alter table album_song_t add constraint album_song_t_album_id_fk foreign key (album_id) references album_t;
-alter table album_song_t add constraint album_song_t_song_id_fk foreign key (song_id) references song_t;
