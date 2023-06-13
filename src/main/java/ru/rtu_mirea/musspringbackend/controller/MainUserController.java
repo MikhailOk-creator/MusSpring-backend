@@ -1,6 +1,5 @@
 package ru.rtu_mirea.musspringbackend.controller;
 
-import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -64,13 +63,45 @@ public class MainUserController {
         return ResponseEntity.ok(adminService.getAllArtists());
     }
 
-    @GetMapping("/artist/like/{id}")
-    public ResponseEntity<?> likeArtist(@RequestParam(name = "id") Long id, @RequestParam(name = "userId") Long userId){
+    @GetMapping("/artist/like/{artistId}")
+    public ResponseEntity<?> likeArtist(@PathVariable(name = "artistId") String artistId,
+                                        @RequestParam String userId) {
         try {
-            if(service.likeArtist(id, userId)) {
+            boolean result = service.likeArtist(Long.parseLong(artistId), Long.parseLong(userId));
+            if (result) {
                 return ResponseEntity.ok(returnJSONMessage("Artist liked"));
             } else {
-                // return ResponseEntity.ok(returnJSONMessage("Artist disliked"));
+                return ResponseEntity.ok(returnJSONMessage("Artist disliked"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
+        }
+    }
+
+    @GetMapping("/album/like/{albumId}")
+    public ResponseEntity<?> likeAlbum(@PathVariable(name = "albumId") String albumId,
+                                       @RequestParam String userId) {
+        try {
+            boolean result = service.likeAlbum(Long.parseLong(albumId), Long.parseLong(userId));
+            if (result) {
+                return ResponseEntity.ok(returnJSONMessage("Album liked"));
+            } else {
+                return ResponseEntity.ok(returnJSONMessage("Album disliked"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
+        }
+    }
+
+    @GetMapping("/song/like/{songId}")
+    public ResponseEntity<?> likeSong(@PathVariable(name = "songId") String songId,
+                                      @RequestParam String userId) {
+        try {
+            boolean result = service.likeSong(Long.parseLong(songId), Long.parseLong(userId));
+            if (result) {
+                return ResponseEntity.ok(returnJSONMessage("Song liked"));
+            } else {
+                return ResponseEntity.ok(returnJSONMessage("Song disliked"));
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(returnJSONMessage("Error"));

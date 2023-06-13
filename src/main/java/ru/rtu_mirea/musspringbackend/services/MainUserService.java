@@ -143,10 +143,19 @@ public class MainUserService {
             Song song = songRepo.findById(songId).orElse(null);
             User user = userRepo.findById(userId).orElse(null);
             Set<Song> likedSongs = user.getLikedSongs();
-            likedSongs.add(song);
+
+            boolean like;
+            if (likedSongs.contains(song)) {
+                likedSongs.add(song);
+                like = true;
+            } else {
+                likedSongs.remove(song);
+                like = false;
+            }
+
             user.setLikedSongs(likedSongs);
             userRepo.save(user);
-            return true;
+            return like;
         } catch (Exception e) {
             return false;
         }
@@ -157,10 +166,19 @@ public class MainUserService {
             Album album = albumRepo.findById(albumId).orElse(null);
             User user = userRepo.findById(userId).orElse(null);
             Set<Album> likedAlbums = user.getLikedAlbums();
-            likedAlbums.add(album);
+
+            boolean like;
+            if (likedAlbums.contains(album)) {
+                likedAlbums.add(album);
+                like = true;
+            } else {
+                likedAlbums.remove(album);
+                like = false;
+            }
+
             user.setLikedAlbums(likedAlbums);
             userRepo.save(user);
-            return true;
+            return like;
         } catch (Exception e) {
             return false;
         }
@@ -171,10 +189,19 @@ public class MainUserService {
             Artist artist = artistRepo.findById(artistId).orElse(null);
             User user = userRepo.findById(userId).orElse(null);
             Set<Artist> likedArtists = user.getLikedArtists();
-            likedArtists.add(artist);
+
+            boolean like;
+            if (likedArtists.contains(artist)) {
+                likedArtists.add(artist);
+                like = true;
+            } else {
+                likedArtists.remove(artist);
+                like = false;
+            }
+
             user.setLikedArtists(likedArtists);
             userRepo.save(user);
-            return true;
+            return like;
         } catch (Exception e) {
             return false;
         }
