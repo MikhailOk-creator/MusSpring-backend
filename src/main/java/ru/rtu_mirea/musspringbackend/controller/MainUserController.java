@@ -108,6 +108,33 @@ public class MainUserController {
         }
     }
 
+    @GetMapping("/likes/songs")
+    public ResponseEntity<?> allLikedSongs(@RequestParam String userId) {
+        try {
+            return ResponseEntity.ok(service.getAllLikedSongs(Long.parseLong(userId)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
+        }
+    }
+
+    @GetMapping("/likes/albums")
+    public ResponseEntity<?> allLikedAlbums(@RequestParam String userId) {
+        try {
+            return ResponseEntity.ok(service.getAllLikedAlbums(Long.parseLong(userId)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
+        }
+    }
+
+    @GetMapping("/likes/artists")
+    public ResponseEntity<?> allLikedArtists(@RequestParam String userId) {
+        try {
+            return ResponseEntity.ok(service.getAllLikedArtists(Long.parseLong(userId)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
+        }
+    }
+
     private String returnJSONMessage (String text) {
         return "{\"message\":\"" + text + "\"}";
     }

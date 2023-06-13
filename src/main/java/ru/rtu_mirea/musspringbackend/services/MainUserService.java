@@ -206,4 +206,31 @@ public class MainUserService {
             return false;
         }
     }
+
+    public Set<Song> getAllLikedSongs (Long userId) {
+        try {
+            User user = userRepo.findById(userId).orElse(null);
+            return user.getLikedSongs();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Set<Album> getAllLikedAlbums (Long userId) {
+        try {
+            User user = userRepo.findById(userId).orElse(null);
+            return user.getLikedAlbums();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public  Set<Artist> getAllLikedArtists (Long userId) {
+        try {
+            User user = userRepo.findById(userId).orElse(null);
+            return user.getLikedArtists();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
