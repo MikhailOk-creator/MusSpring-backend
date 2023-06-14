@@ -22,6 +22,12 @@ CREATE TABLE IF NOT EXISTS artist_t (
     image VARCHAR(255)
 );
 
+CREATE TABLE IF NOT EXISTS genre_t (
+    id int8 not null generated always as identity primary key,
+    name_of_genre VARCHAR(255) NOT NULL,
+    description VARCHAR(505)
+);
+
 CREATE TABLE IF NOT EXISTS album_t (
     id int8 not null generated always as identity primary key,
     title VARCHAR(255) NOT NULL,
@@ -29,10 +35,11 @@ CREATE TABLE IF NOT EXISTS album_t (
     release_year VARCHAR(255) NOT NULL,
     image VARCHAR(255),
     duration VARCHAR(255),
-    genre VARCHAR(255),
+    genre INT NOT NULL,
     path VARCHAR(255),
     label VARCHAR(255) NOT NULL,
-    tracks INT NOT NULL
+    tracks INT NOT NULL,
+    foreign key (genre) references genre_t(id)
 );
 
 CREATE TABLE IF NOT EXISTS song_t (
@@ -41,11 +48,12 @@ CREATE TABLE IF NOT EXISTS song_t (
     artist VARCHAR(255) NOT NULL,
     album VARCHAR(255) NOT NULL,
     duration VARCHAR(255) NOT NULL,
-    genre VARCHAR(255) NOT NULL,
+    genre INT NOT NULL,
     path VARCHAR(255),
     release_year VARCHAR(255) NOT NULL,
-    track_number INT NOT NULL
-);
+    track_number INT NOT NULL,
+    foreign key (genre) references genre_t(id)
+    );
 
 CREATE TABLE IF NOT EXISTS artist_album_t (
     artist_id INT NOT NULL,
