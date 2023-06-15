@@ -4,18 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.rtu_mirea.musspringbackend.dto.AlbumDTO;
+import ru.rtu_mirea.musspringbackend.dto.SongDTO;
 import ru.rtu_mirea.musspringbackend.entity.*;
-import ru.rtu_mirea.musspringbackend.repo.AlbumRepo;
-import ru.rtu_mirea.musspringbackend.repo.ArtistRepo;
-import ru.rtu_mirea.musspringbackend.repo.SongRepo;
-import ru.rtu_mirea.musspringbackend.repo.UserRepo;
+import ru.rtu_mirea.musspringbackend.repo.*;
 
 import java.io.File;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -27,12 +23,14 @@ public class AdminService {
     private final AlbumRepo albumRepo;
     private final SongRepo songRepo;
     private final UserRepo userRepo;
+    private final GenreRepo genreRepo;
 
-    public AdminService(ArtistRepo artistRepo, AlbumRepo albumRepo, SongRepo songRepo, UserRepo userRepo) {
+    public AdminService(ArtistRepo artistRepo, AlbumRepo albumRepo, SongRepo songRepo, UserRepo userRepo, GenreRepo genreRepo) {
         this.artistRepo = artistRepo;
         this.albumRepo = albumRepo;
         this.songRepo = songRepo;
         this.userRepo = userRepo;
+        this.genreRepo = genreRepo;
     }
 
 
@@ -100,7 +98,19 @@ public class AdminService {
         return true;
     }
 
-    public void addAlbum(Album album, MultipartFile file) {
+    public Genre checkGenre(String genre) {
+        if (genreRepo.findByNameOfGenre(genre) != null) {
+            return genreRepo.findByNameOfGenre(genre);
+        } else {
+            log.info("There is no such genre. Adding...");
+            Genre newGenre = new Genre();
+            newGenre.setNameOfGenre(genre);
+            genreRepo.save(newGenre);
+            return newGenre;
+        }
+    }
+
+    public void addAlbum(AlbumDTO album, MultipartFile file) {
         if (albumRepo.findByTitle(album.getTitle()) != null) {
             return;
         }
@@ -122,7 +132,20 @@ public class AdminService {
         }
         Artist artist = artistRepo.findByName(album.getArtist());
         List<Album> albums = artist.getAlbums();
-        albums.add(album);
+
+        // albums.add(album);
+        Album newAlbum = new Album();
+        newAlbum.setTitle(album.getTitle());
+        newAlbum.setArtist(album.getArtist());
+        newAlbum.setGenre(checkGenre(album.getGenre()));
+        newAlbum.setReleaseYear(album.getReleaseYear());
+        newAlbum.setDuration(album.getDuration());
+        newAlbum.setPath(album.getPath());
+        newAlbum.setCover_filename(album.getCover_filename());
+        newAlbum.setLabel(album.getLabel());
+        newAlbum.setTrackCount(album.getTrackCount());
+        albums.add(newAlbum);
+
         artist.setAlbums(albums);
         artistRepo.save(artist);
         log.info("Album added with data: " + '\n' +
@@ -141,7 +164,7 @@ public class AdminService {
         );
     }
 
-    public boolean addSong(Song song, MultipartFile file) {
+    public boolean addSong(SongDTO song, MultipartFile file) {
         if (songRepo.findByTitle(song.getTitle()) != null) {
             return false;
         }
@@ -163,9 +186,22 @@ public class AdminService {
         }
         Album album = albumRepo.findByTitle(song.getAlbum());
         List<Song> songs = album.getSongs();
-        songs.add(song);
+
+        Song newSong = new Song();
+        newSong.setTitle(song.getTitle());
+        newSong.setArtist(song.getArtist());
+
+        newSong.setGenre(checkGenre(song.getGenre()));
+
+        newSong.setAlbum(song.getAlbum());
+        newSong.setReleaseYear(song.getReleaseYear());
+        newSong.setDuration(song.getDuration());
+        newSong.setFilename(song.getFilename());
+        newSong.setTrackNumber(song.getTrackNumber());
+        songs.add(newSong);
+
         album.setSongs(songs);
-        songRepo.save(song);
+        songRepo.save(newSong);
         log.info("Song added with data:" + '\n' +
                 "Title: {}" + '\n' +
                 "Artist: {}" + '\n' +
@@ -239,5 +275,15 @@ public class AdminService {
 
     public List<User> getAllUsers() {
         return userRepo.findAllByOrderByIdAsc();
+    }
+
+    public boolean addGenre (Genre newGenre) {
+        if (genreRepo.findByNameOfGenre(newGenre.getNameOfGenre()) != null) {
+            log.info("Genre {} already exists", newGenre.getNameOfGenre());
+            return false;
+        }
+        genreRepo.save(newGenre);
+        log.info("Genre {} added", newGenre.getNameOfGenre());
+        return true;
     }
 }

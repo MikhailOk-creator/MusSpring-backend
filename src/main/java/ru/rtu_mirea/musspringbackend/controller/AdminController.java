@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.rtu_mirea.musspringbackend.dto.AlbumDTO;
+import ru.rtu_mirea.musspringbackend.dto.SongDTO;
 import ru.rtu_mirea.musspringbackend.entity.Album;
 import ru.rtu_mirea.musspringbackend.entity.Artist;
 import ru.rtu_mirea.musspringbackend.entity.Song;
@@ -60,7 +62,7 @@ public class AdminController {
     }
 
     @PostMapping("/album/add")
-    public ResponseEntity<?> addAlbum(@ModelAttribute Album album, @RequestParam("image") MultipartFile file){
+    public ResponseEntity<?> addAlbum(@ModelAttribute AlbumDTO album, @RequestParam("image") MultipartFile file){
         if (mainUserService.getAlbumByName(album.getTitle()) != null){
             return ResponseEntity.badRequest().body(returnJSONMessage("Album already exists"));
         } else {
@@ -74,12 +76,12 @@ public class AdminController {
     }
 
     @PostMapping("/album/add/JSON")
-    public ResponseEntity<?> addAlbumJSON(@RequestBody Album album, @RequestParam("image") MultipartFile file){
+    public ResponseEntity<?> addAlbumJSON(@RequestBody AlbumDTO album, @RequestParam("image") MultipartFile file){
         return addAlbum(album, file);
     }
 
     @PostMapping("/song/add")
-    public ResponseEntity<?> addSong(@ModelAttribute Song song, @RequestParam(name = "song") MultipartFile file){
+    public ResponseEntity<?> addSong(@ModelAttribute SongDTO song, @RequestParam(name = "song") MultipartFile file){
         if (mainUserService.getSongByName(song.getTitle()) != null){
             return ResponseEntity.badRequest().body("Song already exists");
         } else {
@@ -93,7 +95,7 @@ public class AdminController {
     }
 
     @PostMapping("/song/add/JSON")
-    public ResponseEntity<?> addSongJSON(@RequestBody Song song, @RequestParam(name = "song") MultipartFile file){
+    public ResponseEntity<?> addSongJSON(@RequestBody SongDTO song, @RequestParam(name = "song") MultipartFile file){
         return addSong(song, file);
     }
 
