@@ -15,7 +15,7 @@ public class Genre {
     @Column(name = "id", nullable = false)
     private Long id;
     @Column(name = "name_of_genre", nullable = false)
-    private String name_of_genre;
+    private String nameOfGenre;
     @Column(name = "description")
     private String description;
 }
