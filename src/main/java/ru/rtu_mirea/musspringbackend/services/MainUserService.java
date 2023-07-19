@@ -7,17 +7,13 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.rtu_mirea.musspringbackend.entity.*;
-import ru.rtu_mirea.musspringbackend.repo.AlbumRepo;
-import ru.rtu_mirea.musspringbackend.repo.ArtistRepo;
-import ru.rtu_mirea.musspringbackend.repo.SongRepo;
-import ru.rtu_mirea.musspringbackend.repo.UserRepo;
+import ru.rtu_mirea.musspringbackend.repo.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -26,17 +22,19 @@ public class MainUserService {
     public final AlbumRepo albumRepo;
     public final ArtistRepo artistRepo;
     public final UserRepo userRepo;
+    public final RoleRepo roleRepo;
 
     private Path foundFile;
 
     @Value("${download.path}")
     private String downloadPath;
 
-    public MainUserService(SongRepo songRepo, AlbumRepo albumRepo, ArtistRepo artistRepo, UserRepo userRepo) {
+    public MainUserService(SongRepo songRepo, AlbumRepo albumRepo, ArtistRepo artistRepo, UserRepo userRepo, RoleRepo roleRepo) {
         this.songRepo = songRepo;
         this.albumRepo = albumRepo;
         this.artistRepo = artistRepo;
         this.userRepo = userRepo;
+        this.roleRepo = roleRepo;
     }
 
     // Get song by id
@@ -80,7 +78,11 @@ public class MainUserService {
         try {
             user.setActive(true);
             user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-            user.setRoles(Set.of(Role.USER));
+
+            Set<Role> rolesForUser = new HashSet<>();
+            rolesForUser.add(roleRepo.findByRoleName("USER"));
+            user.setRoles(rolesForUser);
+
             userRepo.save(user);
             log.info("New User added with data: " + '\n' +
                     "Username: {}" + '\n' +

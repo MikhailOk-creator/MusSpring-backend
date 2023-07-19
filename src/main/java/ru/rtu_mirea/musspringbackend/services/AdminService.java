@@ -261,7 +261,7 @@ public class AdminService {
     public boolean changeUserActive(Long id) {
         if (userRepo.findById(id).isPresent()) {
             User user = userRepo.findById(id).get();
-            if (user.getRoles().contains(Role.ADMIN)) {
+            if (user.getRoles().contains("ADMIN")) {
                 log.error("ERROR: IN SYSTEM TRY TO CHANGE ADMIN ACTIVE");
                 return false;
             }

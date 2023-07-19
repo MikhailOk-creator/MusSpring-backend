@@ -8,10 +8,17 @@ CREATE TABLE IF NOT EXISTS user_t (
     active BOOLEAN NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS user_role_t (
-    user_id INT NOT NULL primary key,
-    roles VARCHAR(20) NOT NULL,
-    foreign key (user_id) references user_t(id)
+CREATE TABLE IF NOT EXISTS role_t (
+    id int8 not null generated always as identity primary key,
+    role_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE users_roles_t (
+    user_id int8 NOT NULL,
+    role_id int8 NOT NULL,
+    primary key (user_id, role_id),
+    foreign key (user_id) references user_t (id),
+    foreign key (role_id) references role_t (id)
 );
 
 CREATE TABLE IF NOT EXISTS artist_t (

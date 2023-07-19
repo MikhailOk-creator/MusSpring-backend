@@ -7,9 +7,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.rtu_mirea.musspringbackend.entity.Role;
 import ru.rtu_mirea.musspringbackend.entity.User;
+import ru.rtu_mirea.musspringbackend.repo.RoleRepo;
 import ru.rtu_mirea.musspringbackend.repo.UserRepo;
 
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -25,9 +26,11 @@ public class SuperAdminService {
     @Value("${admin.second_name}")
     private String second_name;
     private final UserRepo userRepo;
+    private final RoleRepo roleRepo;
 
-    public SuperAdminService(UserRepo userRepo) {
+    public SuperAdminService(UserRepo userRepo, RoleRepo roleRepo) {
         this.userRepo = userRepo;
+        this.roleRepo = roleRepo;
     }
 
     public boolean addSuperAdmin() {
@@ -56,7 +59,11 @@ public class SuperAdminService {
 
                 user.setActive(true);
                 user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-                user.setRoles(Set.of(Role.SUPER_ADMIN));
+
+                Set<Role> rolesForUser = new HashSet<>();
+                rolesForUser.add(roleRepo.findByRoleName("SUPER_ADMIN"));
+                user.setRoles(rolesForUser);
+
                 userRepo.save(user);
                 return true;
             } else {
@@ -72,7 +79,11 @@ public class SuperAdminService {
         try {
             user.setActive(true);
             user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-            user.setRoles(Set.of(Role.ADMIN));
+
+            Set<Role> rolesForUser = new HashSet<>();
+            rolesForUser.add(roleRepo.findByRoleName("ADMIN"));
+            user.setRoles(rolesForUser);
+
             userRepo.save(user);
             log.info("New Admin added with data: " + '\n' +
                     "Username: " + user.getUsername() + '\n' +
@@ -90,7 +101,7 @@ public class SuperAdminService {
     public boolean blockAdmin(Long id) {
         try {
             User user = userRepo.findById(id).get();
-            if (user.getRoles().contains(Role.ADMIN)) {
+            if (user.getRoles().contains("ADMIN")) {
                 user.setActive(false);
                 userRepo.save(user);
                 log.info("Admin {} blocked", user.getUsername());
@@ -108,7 +119,7 @@ public class SuperAdminService {
     public boolean unblockAdmin(Long id) {
         try {
             User user = userRepo.findById(id).get();
-            if (user.getRoles().contains(Role.ADMIN)) {
+            if (user.getRoles().contains("ADMIN")) {
                 user.setActive(true);
                 userRepo.save(user);
                 log.info("Admin {} unblocked", user.getUsername());
