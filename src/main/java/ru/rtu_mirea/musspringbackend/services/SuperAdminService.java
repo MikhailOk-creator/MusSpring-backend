@@ -81,6 +81,11 @@ public class SuperAdminService {
             user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 
             Set<Role> rolesForUser = new HashSet<>();
+            if (roleRepo.findByRoleName("ADMIN") == null) {
+                Role role = new Role();
+                role.setRoleName("ADMIN");
+                roleRepo.save(role);
+            }
             rolesForUser.add(roleRepo.findByRoleName("ADMIN"));
             user.setRoles(rolesForUser);
 

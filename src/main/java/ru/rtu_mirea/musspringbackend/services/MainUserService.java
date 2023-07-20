@@ -80,6 +80,12 @@ public class MainUserService {
             user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 
             Set<Role> rolesForUser = new HashSet<>();
+            if (roleRepo.findByRoleName("USER") == null) {
+                Role role = new Role();
+                role.setRoleName("USER");
+                roleRepo.save(role);
+                rolesForUser.add(roleRepo.findByRoleName("USER"));
+            }
             rolesForUser.add(roleRepo.findByRoleName("USER"));
             user.setRoles(rolesForUser);
 

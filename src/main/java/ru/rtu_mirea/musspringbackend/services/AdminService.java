@@ -24,13 +24,16 @@ public class AdminService {
     private final SongRepo songRepo;
     private final UserRepo userRepo;
     private final GenreRepo genreRepo;
+    private final RoleRepo roleRepo;
 
-    public AdminService(ArtistRepo artistRepo, AlbumRepo albumRepo, SongRepo songRepo, UserRepo userRepo, GenreRepo genreRepo) {
+    public AdminService(ArtistRepo artistRepo, AlbumRepo albumRepo, SongRepo songRepo, UserRepo userRepo,
+                        GenreRepo genreRepo, RoleRepo roleRepo) {
         this.artistRepo = artistRepo;
         this.albumRepo = albumRepo;
         this.songRepo = songRepo;
         this.userRepo = userRepo;
         this.genreRepo = genreRepo;
+        this.roleRepo = roleRepo;
     }
 
 
@@ -286,4 +289,46 @@ public class AdminService {
         log.info("Genre {} added", newGenre.getNameOfGenre());
         return true;
     }
-}
+
+    public boolean addRoleForUser (Long userId, String newRoleName) {
+        try {
+            User user = userRepo.findById(userId).get();
+            Role newRole = roleRepo.findByRoleName(newRoleName);
+            if (user.isActive()) {
+                if (user.getRoles().contains(newRole)) {
+                    log.info("User {} already has role {}", user.getUsername(), newRole);
+                    return false;
+                }
+                user.getRoles().add(newRole);
+                userRepo.save(user);
+                log.info("Role {} added for user {}", newRole, user.getUsername());
+                return true;
+            } else {
+                log.info("User {} is not active", user.getUsername());
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("Error while adding role {} for user {}", newRoleName, userId);
+            return false;
+        }
+    }
+
+    public boolean deleteRoleForUser (Long userId, String roleName) {
+        try {
+            User user = userRepo.findById(userId).get();
+            Role role = roleRepo.findByRoleName(roleName);
+            if (user.getRoles().contains(role)) {
+                user.getRoles().remove(role);
+                userRepo.save(user);
+                log.info("Role {} deleted for user {}", role, user.getUsername());
+                return true;
+            } else {
+                log.info("User {} doesn't have role {}", user.getUsername(), role);
+                return false;
+            }
+        } catch (Exception e) {
+            log.error("Error while deleting role {} for user {}", roleName, userId);
+            return false;
+        }
+    }
+ }

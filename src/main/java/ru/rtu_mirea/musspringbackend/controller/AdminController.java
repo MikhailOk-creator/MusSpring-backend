@@ -140,6 +140,24 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getAllUsers());
     }
 
+    @PostMapping("/user/role/add")
+    public ResponseEntity<?> addUserRole(@RequestParam Long userId, @RequestParam String role){
+        if (adminService.addRoleForUser(userId, role)){
+            return ResponseEntity.ok(returnJSONMessage("Role added"));
+        } else {
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
+        }
+    }
+
+    @DeleteMapping("/user/role/delete")
+    public ResponseEntity<?> deleteUserRole(@RequestParam Long userId, @RequestParam String role){
+        if (adminService.deleteRoleForUser(userId, role)){
+            return ResponseEntity.ok(returnJSONMessage("Role deleted"));
+        } else {
+            return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
+        }
+    }
+
     private String returnJSONMessage (String text) {
         return "{\"message\":\"" + text + "\"}";
     }
