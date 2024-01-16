@@ -140,7 +140,7 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getAllUsers());
     }
 
-    @PostMapping("/user/role/add")
+    /*@PostMapping("/user/role/add")
     public ResponseEntity<?> addUserRole(@RequestParam Long userId, @RequestParam String role){
         if (adminService.addRoleForUser(userId, role)){
             return ResponseEntity.ok(returnJSONMessage("Role added"));
@@ -156,7 +156,7 @@ public class AdminController {
         } else {
             return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
         }
-    }
+    }*/
 
     private String returnJSONMessage (String text) {
         return "{\"message\":\"" + text + "\"}";

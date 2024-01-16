@@ -32,13 +32,9 @@ public class User {
 
     /** User role in the system
      * @see Role **/
-    @ManyToMany
-    @JoinTable(
-            name = "users_roles_t",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
 
     /** List of user's liked songs
      * @see Song **/

@@ -5,20 +5,8 @@ CREATE TABLE IF NOT EXISTS user_t (
     password VARCHAR(255) NOT NULL,
     real_name VARCHAR(255),
     surname VARCHAR(255),
+    role VARCHAR(255) NOT NULL,
     active BOOLEAN NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS role_t (
-    id int8 not null generated always as identity primary key,
-    role_name VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE users_roles_t (
-    user_id int8 NOT NULL,
-    role_id int8 NOT NULL,
-    primary key (user_id, role_id),
-    foreign key (user_id) references user_t (id),
-    foreign key (role_id) references role_t (id)
 );
 
 CREATE TABLE IF NOT EXISTS artist_t (
@@ -42,11 +30,9 @@ CREATE TABLE IF NOT EXISTS album_t (
     release_year VARCHAR(255) NOT NULL,
     image VARCHAR(255),
     duration VARCHAR(255),
-    genre INT NOT NULL,
     path VARCHAR(255),
     label VARCHAR(255) NOT NULL,
-    tracks INT NOT NULL,
-    foreign key (genre) references genre_t(id)
+    tracks INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS song_t (
@@ -55,11 +41,9 @@ CREATE TABLE IF NOT EXISTS song_t (
     artist VARCHAR(255) NOT NULL,
     album VARCHAR(255) NOT NULL,
     duration VARCHAR(255) NOT NULL,
-    genre INT NOT NULL,
     path VARCHAR(255),
     release_year VARCHAR(255) NOT NULL,
-    track_number INT NOT NULL,
-    foreign key (genre) references genre_t(id)
+    track_number INT NOT NULL
     );
 
 CREATE TABLE IF NOT EXISTS artist_album_t (

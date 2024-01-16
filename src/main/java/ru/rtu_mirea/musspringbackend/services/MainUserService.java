@@ -22,19 +22,17 @@ public class MainUserService {
     public final AlbumRepo albumRepo;
     public final ArtistRepo artistRepo;
     public final UserRepo userRepo;
-    public final RoleRepo roleRepo;
 
     private Path foundFile;
 
-    @Value("${download.path}")
-    private String downloadPath;
+    private final String downloadPath;
 
-    public MainUserService(SongRepo songRepo, AlbumRepo albumRepo, ArtistRepo artistRepo, UserRepo userRepo, RoleRepo roleRepo) {
+    public MainUserService(SongRepo songRepo, AlbumRepo albumRepo, ArtistRepo artistRepo, UserRepo userRepo) {
         this.songRepo = songRepo;
         this.albumRepo = albumRepo;
         this.artistRepo = artistRepo;
         this.userRepo = userRepo;
-        this.roleRepo = roleRepo;
+        this.downloadPath = "/storage";
     }
 
     // Get song by id
@@ -78,16 +76,7 @@ public class MainUserService {
         try {
             user.setActive(true);
             user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-
-            Set<Role> rolesForUser = new HashSet<>();
-            if (roleRepo.findByRoleName("USER") == null) {
-                Role role = new Role();
-                role.setRoleName("USER");
-                roleRepo.save(role);
-                rolesForUser.add(roleRepo.findByRoleName("USER"));
-            }
-            rolesForUser.add(roleRepo.findByRoleName("USER"));
-            user.setRoles(rolesForUser);
+            user.setRole(Role.ROLE_USER);
 
             userRepo.save(user);
             log.info("New User added with data: " + '\n' +
@@ -95,7 +84,7 @@ public class MainUserService {
                     "Email: {}" + '\n' +
                     "Real Name: {}"  + '\n' +
                     "Second Name: {}",
-                    user.getUsername(), user.getUsername(), user.getRealName(), user.getSurname());
+                    user.getUsername(), user.getEmail(), user.getRealName(), user.getSurname());
             return true;
         } catch (Exception e) {
             return false;

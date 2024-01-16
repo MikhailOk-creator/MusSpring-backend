@@ -16,24 +16,22 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class AdminService {
-    @Value("${upload.path}")
-    private String uploadPath;
+    private final String uploadPath;
 
     private final ArtistRepo artistRepo;
     private final AlbumRepo albumRepo;
     private final SongRepo songRepo;
     private final UserRepo userRepo;
     private final GenreRepo genreRepo;
-    private final RoleRepo roleRepo;
 
     public AdminService(ArtistRepo artistRepo, AlbumRepo albumRepo, SongRepo songRepo, UserRepo userRepo,
-                        GenreRepo genreRepo, RoleRepo roleRepo) {
+                        GenreRepo genreRepo) {
         this.artistRepo = artistRepo;
         this.albumRepo = albumRepo;
         this.songRepo = songRepo;
         this.userRepo = userRepo;
         this.genreRepo = genreRepo;
-        this.roleRepo = roleRepo;
+        this.uploadPath = "/storage";
     }
 
 
@@ -101,7 +99,7 @@ public class AdminService {
         return true;
     }
 
-    public Genre checkGenre(String genre) {
+    /*public Genre checkGenre(String genre) {
         if (genreRepo.findByNameOfGenre(genre) != null) {
             return genreRepo.findByNameOfGenre(genre);
         } else {
@@ -111,7 +109,7 @@ public class AdminService {
             genreRepo.save(newGenre);
             return newGenre;
         }
-    }
+    }*/
 
     public void addAlbum(AlbumDTO album, MultipartFile file) {
         if (albumRepo.findByTitle(album.getTitle()) != null) {
@@ -140,7 +138,7 @@ public class AdminService {
         Album newAlbum = new Album();
         newAlbum.setTitle(album.getTitle());
         newAlbum.setArtist(album.getArtist());
-        newAlbum.setGenre(checkGenre(album.getGenre()));
+        // newAlbum.setGenre(checkGenre(album.getGenre()));
         newAlbum.setReleaseYear(album.getReleaseYear());
         newAlbum.setDuration(album.getDuration());
         newAlbum.setPath(album.getPath());
@@ -194,7 +192,7 @@ public class AdminService {
         newSong.setTitle(song.getTitle());
         newSong.setArtist(song.getArtist());
 
-        newSong.setGenre(checkGenre(song.getGenre()));
+        // newSong.setGenre(checkGenre(song.getGenre()));
 
         newSong.setAlbum(song.getAlbum());
         newSong.setReleaseYear(song.getReleaseYear());
@@ -264,7 +262,7 @@ public class AdminService {
     public boolean changeUserActive(Long id) {
         if (userRepo.findById(id).isPresent()) {
             User user = userRepo.findById(id).get();
-            if (user.getRoles().contains("ADMIN")) {
+            if (user.getRole().equals(Role.ROLE_ADMIN)) {
                 log.error("ERROR: IN SYSTEM TRY TO CHANGE ADMIN ACTIVE");
                 return false;
             }
@@ -280,7 +278,7 @@ public class AdminService {
         return userRepo.findAllByOrderByIdAsc();
     }
 
-    public boolean addGenre (Genre newGenre) {
+    /*public boolean addGenre (Genre newGenre) {
         if (genreRepo.findByNameOfGenre(newGenre.getNameOfGenre()) != null) {
             log.info("Genre {} already exists", newGenre.getNameOfGenre());
             return false;
@@ -288,9 +286,9 @@ public class AdminService {
         genreRepo.save(newGenre);
         log.info("Genre {} added", newGenre.getNameOfGenre());
         return true;
-    }
+    }*/
 
-    public boolean addRoleForUser (Long userId, String newRoleName) {
+    /*public boolean addRoleForUser (Long userId, String newRoleName) {
         try {
             User user = userRepo.findById(userId).get();
             Role newRole = roleRepo.findByRoleName(newRoleName);
@@ -330,5 +328,5 @@ public class AdminService {
             log.error("Error while deleting role {} for user {}", roleName, userId);
             return false;
         }
-    }
+    }*/
  }

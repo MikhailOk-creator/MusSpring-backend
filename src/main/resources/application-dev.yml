@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/musspring_database
+    username: service
+    password: 197319792001
+
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    generate-ddl: false
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+upload:
+  path: ${DATA_DIR}
+
+download:
+  path: ${DATA_DIR}
+
+admin:
+  username: ${ADMIN_USERNAME}
+  password: ${ADMIN_PASSWORD}
+  email: ${ADMIN_EMAIL}
+  real_name: ${ADMIN_REAL_NAME}
+  second_name: ${ADMIN_SECOND_NAME}

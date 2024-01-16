@@ -6,16 +6,19 @@ import org.springframework.web.bind.annotation.*;
 import ru.rtu_mirea.musspringbackend.entity.User;
 import ru.rtu_mirea.musspringbackend.services.AdminService;
 import ru.rtu_mirea.musspringbackend.services.MainUserService;
+import ru.rtu_mirea.musspringbackend.services.SuperAdminService;
 
 @Controller
 @CrossOrigin(origins = "*")
 public class MainUserController {
     private final MainUserService service;
     private final AdminService adminService;
+    private final SuperAdminService superAdminService;
 
-    public MainUserController(MainUserService service, AdminService adminService) {
+    public MainUserController(MainUserService service, AdminService adminService, SuperAdminService superAdminService) {
         this.service = service;
         this.adminService = adminService;
+        this.superAdminService = superAdminService;
     }
 
     @GetMapping("/artist/{id}")
@@ -132,6 +135,15 @@ public class MainUserController {
             return ResponseEntity.ok(service.getAllLikedArtists(Long.parseLong(userId)));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(returnJSONMessage("Error"));
+        }
+    }
+
+    @PostMapping("/create-super-admin")
+    public ResponseEntity<?> addSuperAdmin(@RequestBody User user) {
+        if (superAdminService.addSuperAdmin(user)) {
+            return ResponseEntity.ok(returnJSONMessage("Admin added"));
+        } else {
+            return ResponseEntity.badRequest().body(returnJSONMessage("Admin already exists!"));
         }
     }
 

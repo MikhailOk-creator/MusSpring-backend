@@ -22,10 +22,6 @@ public class Album {
     @Column(name = "artist", nullable = false)
     private String artist;
 
-    @ManyToOne
-    @JoinColumn(name = "genre_id", nullable = false)
-    private Genre genre;
-
     @Column(name = "releaseYear", nullable = false)
     private String releaseYear;
     @Column(name = "duration", nullable = false)
