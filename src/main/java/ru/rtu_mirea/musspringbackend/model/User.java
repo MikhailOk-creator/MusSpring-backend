@@ -1,10 +1,9 @@
-package ru.rtu_mirea.musspringbackend.entity;
+package ru.rtu_mirea.musspringbackend.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Set;
 
 @Entity

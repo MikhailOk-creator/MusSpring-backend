@@ -1,8 +1,8 @@
-package ru.rtu_mirea.musspringbackend.repo;
+package ru.rtu_mirea.musspringbackend.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.rtu_mirea.musspringbackend.entity.Song;
+import ru.rtu_mirea.musspringbackend.model.Song;
 
 import java.util.List;
 

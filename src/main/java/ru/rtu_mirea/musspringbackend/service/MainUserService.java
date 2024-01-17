@@ -1,4 +1,4 @@
-package ru.rtu_mirea.musspringbackend.services;
+package ru.rtu_mirea.musspringbackend.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,8 +7,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.rtu_mirea.musspringbackend.entity.*;
-import ru.rtu_mirea.musspringbackend.repo.*;
+import ru.rtu_mirea.musspringbackend.model.*;
+import ru.rtu_mirea.musspringbackend.repository.*;
 
 import java.io.IOException;
 import java.nio.file.Files;

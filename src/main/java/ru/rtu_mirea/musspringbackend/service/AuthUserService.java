@@ -1,10 +1,10 @@
-package ru.rtu_mirea.musspringbackend.services;
+package ru.rtu_mirea.musspringbackend.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.rtu_mirea.musspringbackend.entity.User;
-import ru.rtu_mirea.musspringbackend.repo.UserRepo;
+import ru.rtu_mirea.musspringbackend.model.User;
+import ru.rtu_mirea.musspringbackend.repository.UserRepo;
 
 @Service
 @Slf4j

@@ -1,4 +1,4 @@
-package ru.rtu_mirea.musspringbackend.services;
+package ru.rtu_mirea.musspringbackend.service;
 
 
 import io.jsonwebtoken.Claims;

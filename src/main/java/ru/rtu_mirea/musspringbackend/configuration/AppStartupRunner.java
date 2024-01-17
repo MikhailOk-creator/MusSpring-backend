@@ -1,14 +1,14 @@
-package ru.rtu_mirea.musspringbackend.config;
+package ru.rtu_mirea.musspringbackend.configuration;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import ru.rtu_mirea.musspringbackend.entity.Role;
-import ru.rtu_mirea.musspringbackend.entity.User;
-import ru.rtu_mirea.musspringbackend.repo.UserRepo;
-import ru.rtu_mirea.musspringbackend.services.SuperAdminService;
+import ru.rtu_mirea.musspringbackend.model.Role;
+import ru.rtu_mirea.musspringbackend.model.User;
+import ru.rtu_mirea.musspringbackend.repository.UserRepo;
+import ru.rtu_mirea.musspringbackend.service.SuperAdminService;
 
 import java.util.List;
 

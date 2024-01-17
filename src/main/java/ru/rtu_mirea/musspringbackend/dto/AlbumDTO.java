@@ -2,7 +2,7 @@ package ru.rtu_mirea.musspringbackend.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.rtu_mirea.musspringbackend.entity.Song;
+import ru.rtu_mirea.musspringbackend.model.Song;
 
 import java.util.List;
 

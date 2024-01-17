@@ -6,11 +6,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.rtu_mirea.musspringbackend.dto.NewUserDTO;
-import ru.rtu_mirea.musspringbackend.entity.User;
-import ru.rtu_mirea.musspringbackend.repo.UserRepo;
-import ru.rtu_mirea.musspringbackend.services.AuthUserService;
-
-import java.util.HashMap;
+import ru.rtu_mirea.musspringbackend.model.User;
+import ru.rtu_mirea.musspringbackend.repository.UserRepo;
+import ru.rtu_mirea.musspringbackend.service.AuthUserService;
 
 @Controller
 @RequestMapping("/user")

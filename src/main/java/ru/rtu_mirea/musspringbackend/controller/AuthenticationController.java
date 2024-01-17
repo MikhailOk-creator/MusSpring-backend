@@ -7,8 +7,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.rtu_mirea.musspringbackend.dto.AuthenticationRequest;
-import ru.rtu_mirea.musspringbackend.services.CustomUserDetailsService;
-import ru.rtu_mirea.musspringbackend.services.JwtService;
+import ru.rtu_mirea.musspringbackend.service.CustomUserDetailsService;
+import ru.rtu_mirea.musspringbackend.service.JwtService;
 
 @RestController
 @RequestMapping("/api/auth")

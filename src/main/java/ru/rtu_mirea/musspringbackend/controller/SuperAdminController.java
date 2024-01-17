@@ -3,8 +3,8 @@ package ru.rtu_mirea.musspringbackend.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ru.rtu_mirea.musspringbackend.entity.User;
-import ru.rtu_mirea.musspringbackend.services.SuperAdminService;
+import ru.rtu_mirea.musspringbackend.model.User;
+import ru.rtu_mirea.musspringbackend.service.SuperAdminService;
 
 @Controller
 @RequestMapping("/super_admin")

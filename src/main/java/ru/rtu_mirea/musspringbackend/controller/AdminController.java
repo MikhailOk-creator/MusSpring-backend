@@ -1,19 +1,14 @@
 package ru.rtu_mirea.musspringbackend.controller;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.rtu_mirea.musspringbackend.dto.AlbumDTO;
 import ru.rtu_mirea.musspringbackend.dto.SongDTO;
-import ru.rtu_mirea.musspringbackend.entity.Album;
-import ru.rtu_mirea.musspringbackend.entity.Artist;
-import ru.rtu_mirea.musspringbackend.entity.Song;
-import ru.rtu_mirea.musspringbackend.services.AdminService;
-import ru.rtu_mirea.musspringbackend.services.MainUserService;
-
-import javax.sound.sampled.AudioFileFormat;
+import ru.rtu_mirea.musspringbackend.model.Artist;
+import ru.rtu_mirea.musspringbackend.service.AdminService;
+import ru.rtu_mirea.musspringbackend.service.MainUserService;
 
 @Controller
 @RequestMapping("/admin")

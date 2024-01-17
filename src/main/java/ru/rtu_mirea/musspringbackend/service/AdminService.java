@@ -1,4 +1,4 @@
-package ru.rtu_mirea.musspringbackend.services;
+package ru.rtu_mirea.musspringbackend.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.rtu_mirea.musspringbackend.dto.AlbumDTO;
 import ru.rtu_mirea.musspringbackend.dto.SongDTO;
-import ru.rtu_mirea.musspringbackend.entity.*;
-import ru.rtu_mirea.musspringbackend.repo.*;
+import ru.rtu_mirea.musspringbackend.model.*;
+import ru.rtu_mirea.musspringbackend.repository.*;
 
 import java.io.File;
 import java.util.List;

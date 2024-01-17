@@ -1,4 +1,4 @@
-package ru.rtu_mirea.musspringbackend.config;
+package ru.rtu_mirea.musspringbackend.configuration;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ru.rtu_mirea.musspringbackend.services.CustomUserDetailsService;
-import ru.rtu_mirea.musspringbackend.services.JwtService;
+import ru.rtu_mirea.musspringbackend.service.CustomUserDetailsService;
+import ru.rtu_mirea.musspringbackend.service.JwtService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

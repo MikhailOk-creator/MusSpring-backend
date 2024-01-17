@@ -1,4 +1,4 @@
-package ru.rtu_mirea.musspringbackend.config;
+package ru.rtu_mirea.musspringbackend.configuration;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

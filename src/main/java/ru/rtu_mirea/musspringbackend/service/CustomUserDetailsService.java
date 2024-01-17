@@ -1,12 +1,12 @@
-package ru.rtu_mirea.musspringbackend.services;
+package ru.rtu_mirea.musspringbackend.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.rtu_mirea.musspringbackend.entity.CustomUserDetails;
-import ru.rtu_mirea.musspringbackend.entity.User;
-import ru.rtu_mirea.musspringbackend.repo.UserRepo;
+import ru.rtu_mirea.musspringbackend.model.CustomUserDetails;
+import ru.rtu_mirea.musspringbackend.model.User;
+import ru.rtu_mirea.musspringbackend.repository.UserRepo;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
