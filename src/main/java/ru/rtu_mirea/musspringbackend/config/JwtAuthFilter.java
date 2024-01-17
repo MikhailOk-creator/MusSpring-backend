@@ -1,4 +1,4 @@
-package ru.rtu_mirea.musspringbackend.filter;
+package ru.rtu_mirea.musspringbackend.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,7 +8,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.rtu_mirea.musspringbackend.services.CustomUserDetailsService;
-import ru.rtu_mirea.musspringbackend.util.JwtUtils;
+import ru.rtu_mirea.musspringbackend.services.JwtService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -22,7 +22,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final CustomUserDetailsService customUserDetailsService;
-    private final JwtUtils jwtUtils;
+    private final JwtService jwtUtils;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String authHeader = request.getHeader(AUTHORIZATION);

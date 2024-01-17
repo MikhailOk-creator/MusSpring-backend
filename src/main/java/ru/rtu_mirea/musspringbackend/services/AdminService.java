@@ -16,7 +16,8 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class AdminService {
-    private final String uploadPath;
+    @Value("${path.upload}")
+    private String uploadPath;
 
     private final ArtistRepo artistRepo;
     private final AlbumRepo albumRepo;

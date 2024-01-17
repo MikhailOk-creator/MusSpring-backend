@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.rtu_mirea.musspringbackend.dto.AuthenticationRequest;
 import ru.rtu_mirea.musspringbackend.services.CustomUserDetailsService;
-import ru.rtu_mirea.musspringbackend.util.JwtUtils;
+import ru.rtu_mirea.musspringbackend.services.JwtService;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -17,7 +17,7 @@ import ru.rtu_mirea.musspringbackend.util.JwtUtils;
 public class AuthenticationController {
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService customUserDetailsService;
-    private final JwtUtils jwtUtils;
+    private final JwtService jwtUtils;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody AuthenticationRequest authenticationRequest) {

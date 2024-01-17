@@ -13,9 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.rtu_mirea.musspringbackend.entity.Role;
-import ru.rtu_mirea.musspringbackend.filter.JwtAuthFilter;
-import ru.rtu_mirea.musspringbackend.repo.UserRepo;
 
 @Configuration
 @EnableWebSecurity

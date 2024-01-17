@@ -1,9 +1,10 @@
-package ru.rtu_mirea.musspringbackend.util;
+package ru.rtu_mirea.musspringbackend.services;
 
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +15,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 @Component
-public class JwtUtils {
-    private String jwtSigningKey = "MUS_SPRING";
+public class JwtService {
+    @Value("${token.signing.key}")
+    private String jwtSigningKey;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

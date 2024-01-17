@@ -1,5 +1,6 @@
 package ru.rtu_mirea.musspringbackend.services;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -17,6 +18,7 @@ import java.util.*;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class MainUserService {
     public final SongRepo songRepo;
     public final AlbumRepo albumRepo;
@@ -25,15 +27,8 @@ public class MainUserService {
 
     private Path foundFile;
 
-    private final String downloadPath;
-
-    public MainUserService(SongRepo songRepo, AlbumRepo albumRepo, ArtistRepo artistRepo, UserRepo userRepo) {
-        this.songRepo = songRepo;
-        this.albumRepo = albumRepo;
-        this.artistRepo = artistRepo;
-        this.userRepo = userRepo;
-        this.downloadPath = "/storage";
-    }
+    @Value("${path.download}")
+    private String downloadPath;
 
     // Get song by id
     public Song getSongById(Long id) {
